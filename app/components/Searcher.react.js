@@ -12,7 +12,6 @@ export default class Searcher extends React.Component {
 
   static getPropsFromStores(props) {
     const state = SearchStore.getState()
-    console.log('getPropsFromStores', state)
     return {
       query: state.query,
       enabled: !state.searching
@@ -20,7 +19,6 @@ export default class Searcher extends React.Component {
   }
 
   render() {
-    console.log('render', this.props)
     const enabled = this.props.enabled
     const query = this.props.query
     return (

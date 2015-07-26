@@ -10,7 +10,7 @@ class SearchStore {
 
     this.query = null
     this.searching = false
-    this.results = null
+    this.torrents = null
   }
 
   onSearch(query) {
@@ -19,16 +19,18 @@ class SearchStore {
     console.log("Search", query, this.searching)
 
     // category 200 = video
-    thepiratebay.search(query, {category: 200}).then((results) => {
-      console.log(results)
+    thepiratebay.search(query, {category: 200}).then((torrents) => {
+      // torrents: category{id, name}, leechers, link, magnetLink, name, 
+      // seeders, size, subcategory{id, name}, torrentLink, uploadDate
+      console.log(torrents)
       this.searching = false
-      this.results = results
+      this.torrents = torrents
       this.emitChange()
 
     }).catch((error) => {
       console.log(error)
       this.searching = false
-      this.results = null
+      this.torrents = null
       this.emitChange()
 
     })
