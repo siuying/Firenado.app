@@ -2,8 +2,9 @@
   "name": "pirate-play",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "build": "browserify --node ./app/app.js -t [babelify --optional es7.decorators] --outfile app/index.js"
+    "start": "npm run build && npm run run",
+    "build": "browserify --node ./app/app.js -t [babelify --optional es7.decorators] --outfile app/index.js",
+    "run": "./bin/run"
   },
   "browserify": {
     "transform": [
