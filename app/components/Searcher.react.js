@@ -1,10 +1,9 @@
 import connectToStores from 'alt/utils/connectToStores'
 import React from 'react'
 import SearchStore from '../stores/SearchStore'
-import Searcher from './Searcher.react'
 
 @connectToStores
-class PrivatePlayApp extends React.Component {
+class Searcher extends React.Component {
   static getStores() {
     return [SearchStore]
   }
@@ -16,10 +15,13 @@ class PrivatePlayApp extends React.Component {
   render() {
     return (
       <div className="container">
-        <Searcher />
+        <div className="input-group">
+          <input type="text" className="form-control" placeholder="TV shows or Movies" aria-describedby="basic-addon2"></input>
+          <span className="input-group-addon" id="basic-addon2">Go</span>
+        </div>
       </div>
     )
   }
 }
 
-export default PrivatePlayApp
+export default Searcher

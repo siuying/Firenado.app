@@ -2,7 +2,9 @@ import alt from '../alt'
 
 class SearchStore {
   constructor() {
-    this.state = {user: 'siuying'}
+    this.state = {
+      query: null
+    }
   }
 }
 
