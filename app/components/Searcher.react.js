@@ -3,7 +3,7 @@ import React from 'react'
 import SearchStore from '../stores/SearchStore'
 
 @connectToStores
-class Searcher extends React.Component {
+export default class Searcher extends React.Component {
   static getStores() {
     return [SearchStore]
   }
@@ -12,16 +12,37 @@ class Searcher extends React.Component {
     return SearchStore.getState()
   }
 
+  constructor(props) {
+    super(props)
+    this.state = {query: ""}
+  }
+
+  submitSearch(e) {
+    console.log("submit search", this.state)
+  }
+
+  inputChanged(e) {
+    this.setState({query: e.target.value})
+  }
+
+  submitSearch(e) {
+    console.log(`submit search ${this.state.query}`)
+  }
+
   render() {
     return (
-      <div className="container">
-        <div className="input-group">
-          <input type="text" className="form-control" placeholder="TV shows or Movies" aria-describedby="basic-addon2"></input>
-          <span className="input-group-addon" id="basic-addon2">Go</span>
-        </div>
+      <div className="searcher input-group">
+        <input type="text" 
+          className="form-control"
+          placeholder="TV shows or Movies"
+          onChange={this.inputChanged.bind(this)}
+          aria-describedby="basic-addon2">
+          {this.state.query}
+        </input>
+        <span className="input-group-addon" 
+          id="basic-addon2"
+          onClick={this.submitSearch.bind(this)}>Go</span>
       </div>
     )
   }
 }
-
-export default Searcher

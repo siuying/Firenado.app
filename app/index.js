@@ -135,31 +135,7 @@ var _storesSearchStore2 = _interopRequireDefault(_storesSearchStore);
 var Searcher = (function (_React$Component) {
   _inherits(Searcher, _React$Component);
 
-  function Searcher() {
-    _classCallCheck(this, _Searcher);
-
-    _get(Object.getPrototypeOf(_Searcher.prototype), 'constructor', this).apply(this, arguments);
-  }
-
-  _createClass(Searcher, [{
-    key: 'render',
-    value: function render() {
-      return _react2['default'].createElement(
-        'div',
-        { className: "container" },
-        _react2['default'].createElement(
-          'div',
-          { className: "input-group" },
-          _react2['default'].createElement('input', { type: "text", className: "form-control", placeholder: "TV shows or Movies", 'aria-describedby': "basic-addon2" }),
-          _react2['default'].createElement(
-            'span',
-            { className: "input-group-addon", id: "basic-addon2" },
-            'Go'
-          )
-        )
-      );
-    }
-  }], [{
+  _createClass(Searcher, null, [{
     key: 'getStores',
     value: function getStores() {
       return [_storesSearchStore2['default']];
@@ -168,6 +144,55 @@ var Searcher = (function (_React$Component) {
     key: 'getPropsFromStores',
     value: function getPropsFromStores() {
       return _storesSearchStore2['default'].getState();
+    }
+  }]);
+
+  function Searcher(props) {
+    _classCallCheck(this, _Searcher);
+
+    _get(Object.getPrototypeOf(_Searcher.prototype), 'constructor', this).call(this, props);
+    this.state = { query: "" };
+  }
+
+  _createClass(Searcher, [{
+    key: 'submitSearch',
+    value: function submitSearch(e) {
+      console.log("submit search", this.state);
+    }
+  }, {
+    key: 'inputChanged',
+    value: function inputChanged(e) {
+      var query = e.target.value;
+      this.setState({ query: e.target.value });
+    }
+  }, {
+    key: 'submitSearch',
+    value: function submitSearch(e) {
+      console.log('submit search ' + this.state.query);
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2['default'].createElement(
+        'div',
+        { className: "searcher input-group" },
+        _react2['default'].createElement(
+          'input',
+          { type: "text",
+            className: "form-control",
+            placeholder: "TV shows or Movies",
+            onChange: this.inputChanged.bind(this),
+            'aria-describedby': "basic-addon2" },
+          this.state.query
+        ),
+        _react2['default'].createElement(
+          'span',
+          { className: "input-group-addon",
+            id: "basic-addon2",
+            onClick: this.submitSearch.bind(this) },
+          'Go'
+        )
+      );
     }
   }]);
 
