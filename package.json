@@ -3,16 +3,12 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build && npm run run",
-    "build": "browserify --node ./app/app.js -t [babelify --optional es7.decorators] --outfile app/index.js",
+    "build": "browserify --node ./app/app.js -t [babelify --optional es7.decorators] -t [nwjs-browserify] --outfile app/index.js",
     "run": "./bin/run"
-  },
-  "browserify": {
-    "transform": [
-      "babelify"
-    ]
   },
   "dependencies": {
     "alt": "^0.17.1",
+    "nwjs-browserify": "^1.0.4",
     "object-assign": "^3.0.0",
     "pirateship": "0.0.7",
     "react": "^0.13.3",

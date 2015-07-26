@@ -11,7 +11,7 @@ var _alt = require('alt');
 
 var _alt2 = _interopRequireDefault(_alt);
 
-exports['default'] = new Alt();
+exports['default'] = new _alt2['default']();
 module.exports = exports['default'];
 
 },{"alt":6}],2:[function(require,module,exports){
@@ -27,10 +27,17 @@ var _componentsPiratePlayAppReact = require('./components/PiratePlayApp.react');
 
 var _componentsPiratePlayAppReact2 = _interopRequireDefault(_componentsPiratePlayAppReact);
 
-_react2['default'].render(_react2['default'].createElement(_componentsPiratePlayAppReact2['default'], {}), document.getElementById('pirateplay'));
+var GUI = (window.require || function(){return {};})('nw.gui');
+GUI.Window.get().showDevTools();
+
+_react2['default'].render(_react2['default'].createElement(_componentsPiratePlayAppReact2['default'], null), document.getElementById('react'));
 
 },{"./components/PiratePlayApp.react":3,"react":172}],3:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -48,12 +55,14 @@ var _altUtilsConnectToStores2 = _interopRequireDefault(_altUtilsConnectToStores)
 
 var _react = require('react');
 
+var _react2 = _interopRequireDefault(_react);
+
 var _storesSearchStore = require('../stores/SearchStore');
 
 var _storesSearchStore2 = _interopRequireDefault(_storesSearchStore);
 
-var PrivatePlayApp = (function (_Component) {
-  _inherits(PrivatePlayApp, _Component);
+var PrivatePlayApp = (function (_React$Component) {
+  _inherits(PrivatePlayApp, _React$Component);
 
   function PrivatePlayApp() {
     _classCallCheck(this, _PrivatePlayApp);
@@ -64,10 +73,15 @@ var PrivatePlayApp = (function (_Component) {
   _createClass(PrivatePlayApp, [{
     key: 'render',
     value: function render() {
-      return React.createElement(
-        'h1',
+      return _react2['default'].createElement(
+        'div',
         null,
-        'Hi!'
+        _react2['default'].createElement(
+          'h1',
+          null,
+          'Hi ',
+          this.props.user
+        )
       );
     }
   }], [{
@@ -78,14 +92,20 @@ var PrivatePlayApp = (function (_Component) {
   }, {
     key: 'getPropsFromStores',
     value: function getPropsFromStores() {
-      return {};
+      return _storesSearchStore2['default'].getState();
     }
   }]);
 
   var _PrivatePlayApp = PrivatePlayApp;
   PrivatePlayApp = (0, _altUtilsConnectToStores2['default'])(PrivatePlayApp) || PrivatePlayApp;
   return PrivatePlayApp;
-})(_react.Component);
+})(_react2['default'].Component)
+
+// have to add this to work
+;
+
+exports['default'] = PrivatePlayApp;
+module.exports = exports['default'];
 
 },{"../stores/SearchStore":4,"alt/utils/connectToStores":16,"react":172}],4:[function(require,module,exports){
 'use strict';
@@ -105,8 +125,7 @@ var _alt2 = _interopRequireDefault(_alt);
 var SearchStore = function SearchStore() {
   _classCallCheck(this, SearchStore);
 
-  this.bindListeners({});
-  this.state = {};
+  this.state = { user: 'siuying' };
 };
 
 exports['default'] = _alt2['default'].createStore(SearchStore, 'SearchStore');

@@ -2,8 +2,7 @@ import alt from '../alt'
 
 class SearchStore {
   constructor() {
-    this.bindListeners({})
-    this.state = {}
+    this.state = {user: 'siuying'}
   }
 }
 

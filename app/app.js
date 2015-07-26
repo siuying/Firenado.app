@@ -1,7 +1,10 @@
+var GUI = _require('nw.gui')
+GUI.Window.get().showDevTools()
+
 import React from 'react'
 import PiratePlayApp from './components/PiratePlayApp.react'
 
 React.render(
-  React.createElement(PiratePlayApp, {}),
-  document.getElementById('pirateplay')
+  <PiratePlayApp />, 
+  document.getElementById('react')
 )

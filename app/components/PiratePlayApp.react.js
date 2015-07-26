@@ -1,20 +1,24 @@
-import connectToStores from 'alt/utils/connectToStores';
-import { Component } from 'react'
+import connectToStores from 'alt/utils/connectToStores'
+import React from 'react'
 import SearchStore from '../stores/SearchStore'
 
 @connectToStores
-class PrivatePlayApp extends Component {
+class PrivatePlayApp extends React.Component {
   static getStores() {
-    return [SearchStore];
+    return [SearchStore]
   }
 
   static getPropsFromStores() {
-    return {};
+    return SearchStore.getState()
   }
 
   render() {
     return (
-      <h1>Hi!</h1>
+      <div>
+        <h1>Hi {this.props.user}</h1>
+      </div>
     )
   }
 }
+
+export default PrivatePlayApp
