@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+var NwBuilder = require('nw-builder');
+var nw = new NwBuilder({
+    files: './app/**/**', // use the glob format
+    platforms: ['osx64'],
+    cacheDir: '.cache',
+    appName: 'PiratePlay',
+    appVersion: '0.1.0'
+});
+
+nw.run(function(){
+  process.exit(0);
+});

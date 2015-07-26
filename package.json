@@ -3,7 +3,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "build": "browserify --node ./app/app.js -t [babelify --optional es7.decorators] --outfile index.js"
+    "build": "browserify --node ./app/app.js -t [babelify --optional es7.decorators] --outfile app/index.js"
   },
   "browserify": {
     "transform": [
@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "babelify": "^6.1.3",
-    "browserify": "^11.0.0"
+    "browserify": "^11.0.0",
+    "nw-builder": "^2.0.1"
   }
 }
