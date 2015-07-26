@@ -9,7 +9,7 @@ var nw = new NwBuilder({
     appVersion: '0.1.0'
 });
 
-nw.run().then(function () {
+nw.build().then(function () {
    console.log('all done!');
 }).catch(function (error) {
     console.error(error);
