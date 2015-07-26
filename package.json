@@ -10,8 +10,8 @@
     "alt": "^0.17.1",
     "nwjs-browserify": "^1.0.4",
     "object-assign": "^3.0.0",
-    "pirateship": "0.0.7",
     "react": "^0.13.3",
+    "thepiratebay": "^0.2.2",
     "wcjs-player": "^0.4.7"
   },
   "devDependencies": {
