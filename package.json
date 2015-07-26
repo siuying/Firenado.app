@@ -1,0 +1,20 @@
+{
+  "name": "pirate-play",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify --node app.js -t babelify --outfile index.js"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  },
+  "dependencies": {
+    "pirateship": "0.0.7",
+    "wcjs-player": "^0.4.7"
+  },
+  "devDependencies": {
+    "babelify": "^6.1.3",
+    "browserify": "^11.0.0"
+  }
+}
