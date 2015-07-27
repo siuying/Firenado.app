@@ -27,7 +27,7 @@ export default class TorrentItem extends React.Component {
   render() {
     const uploadDate = formatDisplayString(this.props.uploadDate)
     return (
-      <tr className="item">
+      <tr className="item" onClick={this._onClick.bind(this)}>
         <td className="category">
           {this.props.category.name}<br/>
           ({this.props.subcategory.name})
@@ -43,5 +43,9 @@ export default class TorrentItem extends React.Component {
         <td className="leechers">{this.props.leechers}</td>
       </tr>
     )
+  }
+
+  _onClick(e) {
+    console.log("selected torrent magnet: ", this.props.magnetLink)
   }
 }

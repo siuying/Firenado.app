@@ -7,7 +7,8 @@ import TorrentItem from './TorrentItem.react'
 
 function getTorrentItem(torrent) {
   return (<TorrentItem key={torrent.link}
-    name={torrent.name} 
+    magnetLink={torrent.magnetLink}
+    name={torrent.name}
     category={torrent.category}
     subcategory={torrent.subcategory}
     uploadDate={torrent.uploadDate}

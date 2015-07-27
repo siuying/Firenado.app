@@ -181,7 +181,7 @@ var Searcher = (function (_React$Component) {
       var query = this.props.query;
       return _react2['default'].createElement(
         'div',
-        { className: "row" },
+        { className: "searcher row" },
         _react2['default'].createElement(
           'form',
           {
@@ -314,7 +314,7 @@ var TorrentItem = (function (_React$Component) {
       var uploadDate = formatDisplayString(this.props.uploadDate);
       return _react2['default'].createElement(
         'tr',
-        { className: "item" },
+        { className: "item", onClick: this._onClick.bind(this) },
         _react2['default'].createElement(
           'td',
           { className: "category" },
@@ -360,6 +360,11 @@ var TorrentItem = (function (_React$Component) {
           this.props.leechers
         )
       );
+    }
+  }, {
+    key: '_onClick',
+    value: function _onClick(e) {
+      console.log("selected torrent magnet: ", this.props.magnetLink);
     }
   }]);
 
@@ -408,6 +413,7 @@ var _TorrentItemReact2 = _interopRequireDefault(_TorrentItemReact);
 
 function getTorrentItem(torrent) {
   return _react2['default'].createElement(_TorrentItemReact2['default'], { key: torrent.link,
+    magnetLink: torrent.magnetLink,
     name: torrent.name,
     category: torrent.category,
     subcategory: torrent.subcategory,
@@ -47622,7 +47628,11 @@ var compile = function(schema, cache, root, reporter, opts) {
 
     if (properties) {
       Object.keys(properties).forEach(function(p) {
+        if (Array.isArray(type) && type.indexOf('null') !== -1) validate('if (%s !== null) {', name)
+
         visit(genobj(name, p), properties[p], reporter, filter)
+
+        if (Array.isArray(type) && type.indexOf('null') !== -1) validate('}')
       })
     }
 
