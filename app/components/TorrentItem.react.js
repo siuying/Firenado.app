@@ -1,7 +1,7 @@
 import React from 'react'
 
 import SearchStore from '../stores/SearchStore'
-import SearchActions from '../actions/SearchActions'
+import TorrentActions from '../actions/TorrentActions'
 import moment from 'moment'
 
 // return a relative date from today, based on input MM-DD hh:mm format.
@@ -47,5 +47,6 @@ export default class TorrentItem extends React.Component {
 
   _onClick(e) {
     console.log("selected torrent magnet: ", this.props.magnetLink)
+    TorrentActions.openTorrentUrl(this.props.magnetLink)
   }
 }
