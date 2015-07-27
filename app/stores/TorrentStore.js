@@ -79,9 +79,8 @@ class TorrentStore {
     this.invalid = 0
 
     if (engine) {
-      engine.remove(() => {
-        engine = null
-      })
+      engine.remove()
+      engine = null
     }
   }
 }
