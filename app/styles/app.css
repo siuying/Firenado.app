@@ -1,3 +1,7 @@
+#container {
+  padding: 20px;
+}
+
 .torrents .item .category {
   font-size: 10px
 }
@@ -10,4 +14,8 @@
   font-size: 12px;
   color: #888;
   padding-right: 20px;
+}
+
+.torrent-status .name {
+  font-weight: bolder
 }

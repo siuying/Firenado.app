@@ -1,5 +1,5 @@
-import connectToStores from 'alt/utils/connectToStores'
 import React from 'react'
+import connectToStores from 'alt/utils/connectToStores'
 
 import SearchStore from '../stores/SearchStore'
 import SearchActions from '../actions/SearchActions'

@@ -3,7 +3,8 @@ import alt from '../alt'
 class TorrentActions {
   constructor() {
     this.generateActions(
-      'openTorrentUrl'
+      'openTorrentUrl',
+      'closeTorrent'
     )
   }
 }
