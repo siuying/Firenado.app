@@ -236,7 +236,7 @@ var Searcher = (function (_React$Component) {
     key: 'render',
     value: function render() {
       var enabled = this.props.enabled;
-      var query = this.props.query;
+      var query = this.state ? this.state.query : this.props.query;
       return _react2['default'].createElement(
         'div',
         { className: "searcher row" },
@@ -248,16 +248,13 @@ var Searcher = (function (_React$Component) {
           _react2['default'].createElement(
             'div',
             { className: "form-group col-xs-10 col-sm-11 col-md-11 col-lg-11" },
-            _react2['default'].createElement(
-              'input',
-              { type: "text",
-                className: "form-control",
-                placeholder: "TV shows or Movies",
-                onChange: this._onInputChanged.bind(this),
-                disabled: !enabled,
-                'aria-describedby': "basic-addon2" },
-              query
-            )
+            _react2['default'].createElement('input', { type: "text",
+              className: "form-control",
+              placeholder: "TV shows or Movies",
+              onChange: this._onInputChanged.bind(this),
+              disabled: !enabled,
+              'aria-describedby': "basic-addon2",
+              value: query })
           ),
           _react2['default'].createElement(
             'button',
@@ -335,8 +332,7 @@ var _actionsTorrentActions2 = _interopRequireDefault(_actionsTorrentActions);
 
 var _moment = require('moment');
 
-// return a relative date from today, based on input MM-DD hh:mm format.
-// based on assumption that fromDate string is MM-DD hh:mm, and it could only be past date
+// the date formate is either MM-DD hh:mm OR MM-DD YYYY
 
 var _moment2 = _interopRequireDefault(_moment);
 
@@ -344,15 +340,16 @@ function formatDisplayString(dateString) {
   if (!dateString) {
     return "";
   }
-
-  var parsedDate = (0, _moment2['default'])(dateString, "MM-DD hh:mm");
-  if (!parsedDate) {
-    console.warn("parsedDate is empty?", dateString);
-    return "";
+  var parsedDate;
+  if (dateString.indexOf(":") > -1) {
+    parsedDate = (0, _moment2['default'])(dateString, "MM-DD hh:mm");
+  } else {
+    parsedDate = (0, _moment2['default'])(dateString, "MM-DD YYYY");
   }
 
-  if (parsedDate.toDate() > new Date()) {
-    parsedDate.subtract(1, 'years');
+  if (!parsedDate) {
+    console.warn("parsedDate is empty?", dateString);
+    return "N/A";
   }
   return parsedDate.fromNow();
 }
@@ -843,7 +840,7 @@ var TorrentStore = (function () {
 
       function onready() {
         store.files = engine.files;
-        store.defaultFile = engine.server.index;
+        store.selectedFile = engine.server.index;
         store.state = _constantsTorrentStates2['default'].Ready;
         store.emitChange();
         console.log(store.files.map(function (file) {
@@ -867,16 +864,17 @@ var TorrentStore = (function () {
     value: function reset() {
       this.state = _constantsTorrentStates2['default'].Idle;
       this.torrentUrl = null;
-      this.defaultFile = null;
       this.files = null;
+      this.selectedFile = null;
       this.hotswaps = 0;
       this.verified = 0;
       this.invalid = 0;
 
       if (engine) {
         engine.remove(function () {
-          engine = null;
+          console.log("cleanup torrent-stream completed.");
         });
+        engine = null;
       }
     }
   }]);

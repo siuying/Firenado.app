@@ -20,23 +20,23 @@ export default class Searcher extends React.Component {
 
   render() {
     const enabled = this.props.enabled
-    const query = this.props.query
+    // if user changed the query, use the changed value, otherwsie use props
+    const query = this.state ? this.state.query : this.props.query
     return (
       <div className="searcher row">
-        <form 
+        <form
           className="form-inline searcher"
           onSubmit={this._onSubmit.bind(this)}>
           <div className="form-group col-xs-10 col-sm-11 col-md-11 col-lg-11">
-            <input type="text" 
+            <input type="text"
               className="form-control"
               placeholder="TV shows or Movies"
               onChange={this._onInputChanged.bind(this)}
               disabled={!enabled}
-              aria-describedby="basic-addon2">
-              {query}
-            </input>
+              aria-describedby="basic-addon2"
+              value={query}/>
           </div>
-          <button type="submit" 
+          <button type="submit"
             disabled={!enabled}
             className="btn btn-default">Go</button>
         </form>

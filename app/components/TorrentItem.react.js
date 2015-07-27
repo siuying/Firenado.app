@@ -4,21 +4,21 @@ import SearchStore from '../stores/SearchStore'
 import TorrentActions from '../actions/TorrentActions'
 import moment from 'moment'
 
-// return a relative date from today, based on input MM-DD hh:mm format.
-// based on assumption that fromDate string is MM-DD hh:mm, and it could only be past date
+// the date formate is either MM-DD hh:mm OR MM-DD YYYY
 function formatDisplayString(dateString) {
   if (!dateString) {
     return ""
   }
-
-  var parsedDate = moment(dateString, "MM-DD hh:mm")
-  if (!parsedDate) {
-    console.warn("parsedDate is empty?", dateString)
-    return ""
+  var parsedDate;
+  if (dateString.indexOf(":") > -1) {
+    parsedDate = moment(dateString, "MM-DD hh:mm")
+  } else {
+    parsedDate = moment(dateString, "MM-DD YYYY")
   }
 
-  if (parsedDate.toDate() > new Date()) {
-    parsedDate.subtract(1, 'years');
+  if (!parsedDate) {
+    console.warn("parsedDate is empty?", dateString)
+    return "N/A"
   }
   return parsedDate.fromNow();
 }
