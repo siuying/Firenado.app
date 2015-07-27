@@ -843,6 +843,7 @@ var TorrentStore = (function () {
 
       function onready() {
         store.files = engine.files;
+        store.defaultFile = engine.server.index;
         store.state = _constantsTorrentStates2['default'].Ready;
         store.emitChange();
         console.log(store.files.map(function (file) {
@@ -866,6 +867,7 @@ var TorrentStore = (function () {
     value: function reset() {
       this.state = _constantsTorrentStates2['default'].Idle;
       this.torrentUrl = null;
+      this.defaultFile = null;
       this.files = null;
       this.hotswaps = 0;
       this.verified = 0;

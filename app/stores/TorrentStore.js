@@ -52,6 +52,7 @@ class TorrentStore {
 
     function onready() {
       store.files = engine.files
+      store.selectedFile = engine.server.index
       store.state = TorrentStates.Ready
       store.emitChange()
       console.log(store.files.map((file) => file.name))
@@ -72,6 +73,7 @@ class TorrentStore {
     this.state = TorrentStates.Idle
     this.torrentUrl = null
     this.files = null
+    this.selectedFile = null
     this.hotswaps = 0
     this.verified = 0
     this.invalid = 0
