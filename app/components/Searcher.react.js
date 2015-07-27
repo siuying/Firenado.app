@@ -22,7 +22,7 @@ export default class Searcher extends React.Component {
     const enabled = this.props.enabled
     const query = this.props.query
     return (
-      <div className="row">
+      <div className="searcher row">
         <form 
           className="form-inline searcher"
           onSubmit={this._onSubmit.bind(this)}>
@@ -30,7 +30,7 @@ export default class Searcher extends React.Component {
             <input type="text" 
               className="form-control"
               placeholder="TV shows or Movies"
-              onChange={this._inputChanged.bind(this)}
+              onChange={this._onInputChanged.bind(this)}
               disabled={!enabled}
               aria-describedby="basic-addon2">
               {query}
@@ -38,7 +38,7 @@ export default class Searcher extends React.Component {
           </div>
           <button type="submit" 
             disabled={!enabled}
-            className="btn btn-default col-xs-2 col-sm-1 col-md-1 col-lg-1">Go</button>
+            className="btn btn-default">Go</button>
         </form>
       </div>
     )
@@ -49,7 +49,7 @@ export default class Searcher extends React.Component {
     e.preventDefault()
   }
 
-  _inputChanged(e) {
+  _onInputChanged(e) {
     this.setState({query: e.target.value})
   }
 }

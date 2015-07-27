@@ -11,6 +11,7 @@ function getTorrentItem(torrent) {
     category={torrent.category}
     subcategory={torrent.subcategory}
     uploadDate={torrent.uploadDate}
+    size={torrent.size}
     seeders={torrent.seeders}
     leechers={torrent.leechers} />)
 }
@@ -36,13 +37,17 @@ export default class TorrentItemList extends React.Component {
     const items = this.props.torrents.map(getTorrentItem)
     return (
       <table className="table table-hover torrents">
-        <tr>
-          <td>Type</td>
-          <td>Name</td>
-          <td>SE</td>
-          <td>LE</td>
-        </tr>
-        {items}
+        <thead>
+          <tr>
+            <td>Type</td>
+            <td>Name</td>
+            <td>SE</td>
+            <td>LE</td>
+          </tr>
+        </thead>
+        <tbody>
+          {items}
+        </tbody>
       </table>
     )
   }

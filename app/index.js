@@ -195,7 +195,7 @@ var Searcher = (function (_React$Component) {
               { type: "text",
                 className: "form-control",
                 placeholder: "TV shows or Movies",
-                onChange: this._inputChanged.bind(this),
+                onChange: this._onInputChanged.bind(this),
                 disabled: !enabled,
                 'aria-describedby': "basic-addon2" },
               query
@@ -205,7 +205,7 @@ var Searcher = (function (_React$Component) {
             'button',
             { type: "submit",
               disabled: !enabled,
-              className: "btn btn-default col-xs-2 col-sm-1 col-md-1 col-lg-1" },
+              className: "btn btn-default" },
             'Go'
           )
         )
@@ -218,8 +218,8 @@ var Searcher = (function (_React$Component) {
       e.preventDefault();
     }
   }, {
-    key: '_inputChanged',
-    value: function _inputChanged(e) {
+    key: '_onInputChanged',
+    value: function _onInputChanged(e) {
       this.setState({ query: e.target.value });
     }
   }], [{
@@ -277,14 +277,24 @@ var _actionsSearchActions2 = _interopRequireDefault(_actionsSearchActions);
 
 var _moment = require('moment');
 
-// we only got MM-DD, so we need to handle possible future date
+// return a relative date from today, based on input MM-DD hh:mm format.
+// based on assumption that fromDate string is MM-DD hh:mm, and it could only be past date
 
 var _moment2 = _interopRequireDefault(_moment);
 
 function formatDisplayString(dateString) {
+  if (!dateString) {
+    return "";
+  }
+
   var parsedDate = (0, _moment2['default'])(dateString, "MM-DD hh:mm");
+  if (!parsedDate) {
+    console.warn("parsedDate is empty?", dateString);
+    return "";
+  }
+
   if (parsedDate.toDate() > new Date()) {
-    parsedDate.substract(1, 'years');
+    parsedDate.subtract(1, 'years');
   }
   return parsedDate.fromNow();
 }
@@ -316,11 +326,28 @@ var TorrentItem = (function (_React$Component) {
         ),
         _react2['default'].createElement(
           'td',
-          { className: "name" },
-          this.props.name,
+          { className: "main" },
+          _react2['default'].createElement(
+            'span',
+            { className: "name" },
+            this.props.name
+          ),
           ' ',
           _react2['default'].createElement('br', null),
-          uploadDate
+          _react2['default'].createElement(
+            'span',
+            { className: "caption" },
+            _react2['default'].createElement(
+              'span',
+              { className: "date" },
+              uploadDate
+            ),
+            _react2['default'].createElement(
+              'span',
+              { className: "size" },
+              this.props.size
+            )
+          )
         ),
         _react2['default'].createElement(
           'td',
@@ -385,6 +412,7 @@ function getTorrentItem(torrent) {
     category: torrent.category,
     subcategory: torrent.subcategory,
     uploadDate: torrent.uploadDate,
+    size: torrent.size,
     seeders: torrent.seeders,
     leechers: torrent.leechers });
 }
@@ -410,30 +438,38 @@ var TorrentItemList = (function (_React$Component) {
         'table',
         { className: "table table-hover torrents" },
         _react2['default'].createElement(
-          'tr',
+          'thead',
           null,
           _react2['default'].createElement(
-            'td',
+            'tr',
             null,
-            'Type'
-          ),
-          _react2['default'].createElement(
-            'td',
-            null,
-            'Name'
-          ),
-          _react2['default'].createElement(
-            'td',
-            null,
-            'SE'
-          ),
-          _react2['default'].createElement(
-            'td',
-            null,
-            'LE'
+            _react2['default'].createElement(
+              'td',
+              null,
+              'Type'
+            ),
+            _react2['default'].createElement(
+              'td',
+              null,
+              'Name'
+            ),
+            _react2['default'].createElement(
+              'td',
+              null,
+              'SE'
+            ),
+            _react2['default'].createElement(
+              'td',
+              null,
+              'LE'
+            )
           )
         ),
-        items
+        _react2['default'].createElement(
+          'tbody',
+          null,
+          items
+        )
       );
     }
   }], [{
@@ -517,7 +553,6 @@ var SearchStore = (function () {
       })['catch'](function (error) {
         console.log(error);
         _this.searching = false;
-        _this.torrents = null;
         _this.emitChange();
       });
     }

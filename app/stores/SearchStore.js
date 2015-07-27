@@ -30,7 +30,6 @@ class SearchStore {
     }).catch((error) => {
       console.log(error)
       this.searching = false
-      this.torrents = null
       this.emitChange()
 
     })
