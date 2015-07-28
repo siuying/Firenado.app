@@ -10,7 +10,7 @@ var nw = new NwBuilder({
 });
 
 nw.build().then(function () {
-   console.log('all done!');
+  console.log('all done!');
 }).catch(function (error) {
-    console.error(error);
+  console.error(error);
 });
