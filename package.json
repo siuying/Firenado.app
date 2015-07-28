@@ -9,9 +9,8 @@
   "dependencies": {
     "alt": "^0.17.1",
     "babel": "^5.8.12",
-    "bootstrap": "^3.3.5",
-    "jquery": "^2.1.4",
     "moment": "^2.10.5",
+    "network-address": "^1.0.0",
     "numeral": "^1.5.3",
     "object-assign": "^3.0.0",
     "peerflix": "^0.30.1",
