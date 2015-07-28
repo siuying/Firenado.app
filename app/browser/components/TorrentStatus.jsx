@@ -6,7 +6,7 @@ import TorrentStore from '../stores/TorrentStore'
 import TorrentActions from '../actions/TorrentActions'
 import TorrentStates from '../constants/TorrentStates'
 
-import TorrentFileList from './TorrentFileList.react'
+import TorrentFileList from './TorrentFileList'
 
 @connectToStores
 export default class TorrentStatus extends React.Component {

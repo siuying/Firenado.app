@@ -3,7 +3,7 @@ import connectToStores from 'alt/utils/connectToStores'
 
 import SearchStore from '../stores/SearchStore'
 import SearchActions from '../actions/SearchActions'
-import TorrentItem from './TorrentItem.react'
+import TorrentItem from './TorrentItem'
 
 function getTorrentItem(torrent) {
   return (<TorrentItem key={torrent.link}

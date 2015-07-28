@@ -6,13 +6,20 @@
 
 		<title>PiratePlay</title>
 
-    <link href="styles/bootstrap.min.css" rel="stylesheet">
+    <link href="./styles/bootstrap.min.css" rel="stylesheet">
 		<link rel="stylesheet" href="styles/app.css">
 	</head>
 	<body>
 		<section id="react"></section>
-		<script src="browser.js"></script>
-		<script src="vendor/jquery.min.js"></script>
-		<script src="vendor/bootstrap.min.js"></script>
+    <script>
+      window.onload = function(){
+        require('babel/register')({
+					stage: 0
+				})
+				window.jQuery = require("./vendor/jquery.min.js")
+				require("./vendor/bootstrap.min.js")
+        require("./browser.js")
+      }
+    </script>
 	</body>
 </html>

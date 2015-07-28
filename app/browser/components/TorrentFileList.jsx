@@ -1,7 +1,7 @@
 import React from 'react'
 import connectToStores from 'alt/utils/connectToStores'
 
-import TorrentFileItem from './TorrentFileItem.react'
+import TorrentFileItem from './TorrentFileItem'
 import TorrentStore from '../stores/TorrentStore'
 
 @connectToStores

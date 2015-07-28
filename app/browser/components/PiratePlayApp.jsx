@@ -1,9 +1,9 @@
 import React from 'react'
 import connectToStores from 'alt/utils/connectToStores'
 
-import Searcher from './Searcher.react'
-import TorrentItemList from './TorrentItemList.react'
-import TorrentStatus from './TorrentStatus.react'
+import Searcher from './Searcher'
+import TorrentItemList from './TorrentItemList'
+import TorrentStatus from './TorrentStatus'
 
 import TorrentStore from '../stores/TorrentStore'
 import TorrentStates from '../constants/TorrentStates'
