@@ -1,5 +1,4 @@
-var GUI = _require('nw.gui')
-GUI.Window.get().showDevTools()
+var polyfill = require("babel/polyfill");
 
 import React from 'react'
 import PiratePlayApp from './components/PiratePlayApp.react'
