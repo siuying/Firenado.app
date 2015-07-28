@@ -1,5 +1,6 @@
 import React from 'react'
 import connectToStores from 'alt/utils/connectToStores'
+import wjs from "wcjs-player"
 
 import TorrentStore from '../stores/TorrentStore'
 import TorrentActions from '../actions/TorrentActions'
@@ -17,9 +18,18 @@ export default class TorrentStatus extends React.Component {
     return TorrentStore.getState()
   }
 
+  componentDidMount() {
+    this.player = new wjs("#player").addPlayer({ autoplay: true })
+  }
+
+  componentWillUnmount() {
+    this.player.stop()
+    this.player = null
+  }
+
   render() {
-    var statusView = (this.props.state == TorrentStates.LoadingMeta) ? this.renderStatusView()  : null
-    var fileListView = (this.props.state != TorrentStates.LoadingMeta) ? this.renderFileListView() : null
+    var statusView = (this.props.state == TorrentStates.LoadingMetadata) ? this.renderStatusView()  : null
+    var fileListView = (this.props.state != TorrentStates.LoadingMetadata) ? this.renderFileListView() : null
 
     return (
       <div className="torrent-status">
@@ -33,6 +43,8 @@ export default class TorrentStatus extends React.Component {
           </button>
           {statusView}
           {fileListView}
+        </div>
+        <div id="player" className="embed-responsive embed-responsive-16by9">
         </div>
       </div>
     )
