@@ -4,6 +4,7 @@ import connectToStores from 'alt/utils/connectToStores'
 import Searcher from './Searcher.react'
 import TorrentItemList from './TorrentItemList.react'
 import TorrentStatus from './TorrentStatus.react'
+import TorrentFileList from './TorrentFileList.react'
 
 import TorrentStore from '../stores/TorrentStore'
 import TorrentStates from '../constants/TorrentStates'
@@ -47,6 +48,7 @@ class PrivatePlayApp extends React.Component {
     return (
       <div id="container">
         <TorrentStatus />
+        <TorrentFileList />
       </div>
     )
   }
