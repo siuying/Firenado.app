@@ -1,6 +1,7 @@
 import alt from '../alt'
 import peerflix from 'peerflix'
 import numeral from 'numeral'
+import address from 'network-address'
 
 import TorrentActions from '../actions/TorrentActions'
 import TorrentStates from '../constants/TorrentStates'
@@ -20,7 +21,7 @@ class TorrentStore {
     console.log('open torrent url', url)
 
     this.torrentUrl = url
-    this.state = TorrentStates.LoadingMeta
+    this.state = TorrentStates.LoadingMetadata
 
     if (/^magnet:/.test(url)) {
       this.onTorrent(url)
@@ -33,10 +34,6 @@ class TorrentStore {
     engine = peerflix(torrent)
 
     var store = this
-    var hotswaps = 0
-    var verified = 0
-    var invalid = 0
-
     engine.on('hotswap', () => {
       store.hotswaps++
       store.emitChange()
@@ -49,6 +46,13 @@ class TorrentStore {
       store.invalid++
       store.emitChange()
     })
+    engine.server.on('listening', () => {
+      var host = address()
+      var videoUrl = `http://${host}:${engine.server.address().port}/`
+      store.videoUrl = videoUrl
+      store.emitChange()
+      console.log('listening on ', videoUrl)
+    });
 
     function onready() {
       store.files = engine.files
