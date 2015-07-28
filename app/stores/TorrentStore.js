@@ -65,6 +65,10 @@ class TorrentStore {
     }
   }
 
+  onSelectFile(file) {
+    this.selectedFile = file
+  }
+
   onCloseTorrent() {
     this.reset()
   }

@@ -40,7 +40,7 @@ var _alt2 = _interopRequireDefault(_alt);
 var TorrentActions = function TorrentActions() {
   _classCallCheck(this, TorrentActions);
 
-  this.generateActions('openTorrentUrl', 'closeTorrent');
+  this.generateActions('openTorrentUrl', 'closeTorrent', 'selectFile');
 };
 
 exports['default'] = _alt2['default'].createActions(TorrentActions);
@@ -117,10 +117,6 @@ var _TorrentStatusReact = require('./TorrentStatus.react');
 
 var _TorrentStatusReact2 = _interopRequireDefault(_TorrentStatusReact);
 
-var _TorrentFileListReact = require('./TorrentFileList.react');
-
-var _TorrentFileListReact2 = _interopRequireDefault(_TorrentFileListReact);
-
 var _storesTorrentStore = require('../stores/TorrentStore');
 
 var _storesTorrentStore2 = _interopRequireDefault(_storesTorrentStore);
@@ -168,8 +164,7 @@ var PrivatePlayApp = (function (_React$Component) {
       return _react2['default'].createElement(
         'div',
         { id: "container" },
-        _react2['default'].createElement(_TorrentStatusReact2['default'], null),
-        _react2['default'].createElement(_TorrentFileListReact2['default'], null)
+        _react2['default'].createElement(_TorrentStatusReact2['default'], null)
       );
     }
   }], [{
@@ -195,7 +190,7 @@ var PrivatePlayApp = (function (_React$Component) {
 exports['default'] = PrivatePlayApp;
 module.exports = exports['default'];
 
-},{"../constants/TorrentStates":12,"../stores/TorrentStore":14,"./Searcher.react":6,"./TorrentFileList.react":8,"./TorrentItemList.react":10,"./TorrentStatus.react":11,"alt/utils/connectToStores":26,"react":319}],6:[function(require,module,exports){
+},{"../constants/TorrentStates":12,"../stores/TorrentStore":14,"./Searcher.react":6,"./TorrentItemList.react":10,"./TorrentStatus.react":11,"alt/utils/connectToStores":26,"react":319}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -308,25 +303,29 @@ exports['default'] = Searcher;
 module.exports = exports['default'];
 
 },{"../actions/SearchActions":1,"../stores/SearchStore":13,"alt/utils/connectToStores":26,"react":319}],7:[function(require,module,exports){
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _actionsTorrentActions = require('../actions/TorrentActions');
+
+var _actionsTorrentActions2 = _interopRequireDefault(_actionsTorrentActions);
 
 var TorrentFile = (function (_React$Component) {
   _inherits(TorrentFile, _React$Component);
@@ -334,18 +333,18 @@ var TorrentFile = (function (_React$Component) {
   function TorrentFile() {
     _classCallCheck(this, TorrentFile);
 
-    _get(Object.getPrototypeOf(TorrentFile.prototype), "constructor", this).apply(this, arguments);
+    _get(Object.getPrototypeOf(TorrentFile.prototype), 'constructor', this).apply(this, arguments);
   }
 
   _createClass(TorrentFile, [{
-    key: "render",
+    key: 'render',
     value: function render() {
       var highlightClass = this.props.selected ? "list-group-item list-group-item-success" : "list-group-item";
-      return _react2["default"].createElement(
-        "li",
+      return _react2['default'].createElement(
+        'li',
         null,
-        _react2["default"].createElement(
-          "a",
+        _react2['default'].createElement(
+          'a',
           { href: "#",
             onClick: this._onClick.bind(this)
           },
@@ -354,19 +353,20 @@ var TorrentFile = (function (_React$Component) {
       );
     }
   }, {
-    key: "_onClick",
+    key: '_onClick',
     value: function _onClick(e) {
       console.log('item: ', this.props.file);
+      _actionsTorrentActions2['default'].selectFile(this.props.file);
     }
   }]);
 
   return TorrentFile;
-})(_react2["default"].Component);
+})(_react2['default'].Component);
 
-exports["default"] = TorrentFile;
-module.exports = exports["default"];
+exports['default'] = TorrentFile;
+module.exports = exports['default'];
 
-},{"react":319}],8:[function(require,module,exports){
+},{"../actions/TorrentActions":2,"react":319}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -761,6 +761,10 @@ var _constantsTorrentStates = require('../constants/TorrentStates');
 
 var _constantsTorrentStates2 = _interopRequireDefault(_constantsTorrentStates);
 
+var _TorrentFileListReact = require('./TorrentFileList.react');
+
+var _TorrentFileListReact2 = _interopRequireDefault(_TorrentFileListReact);
+
 var TorrentStatus = (function (_React$Component) {
   _inherits(TorrentStatus, _React$Component);
 
@@ -771,45 +775,47 @@ var TorrentStatus = (function (_React$Component) {
   }
 
   _createClass(TorrentStatus, [{
-    key: 'getStatusLabel',
-    value: function getStatusLabel(status) {
-      switch (status) {
-        case _constantsTorrentStates2['default'].LoadingMeta:
-          return "Loading metadata ...";
-        case _constantsTorrentStates2['default'].Ready:
-          return "Ready";
-        case _constantsTorrentStates2['default'].Downloading:
-          return "Downloading ...";
-        default:
-          return "Unknown";
-      }
-    }
-  }, {
     key: 'render',
     value: function render() {
-      var status = this.getStatusLabel(this.props.state);
+      var statusView = this.props.state == _constantsTorrentStates2['default'].LoadingMeta ? this.renderStatusView() : null;
+      var fileListView = this.props.state != _constantsTorrentStates2['default'].LoadingMeta ? this.renderFileListView() : null;
 
       return _react2['default'].createElement(
         'div',
         { className: "torrent-status" },
         _react2['default'].createElement(
-          'div',
-          { className: "row" },
-          _react2['default'].createElement(
-            'div',
-            { className: "col-xs-1 col-sm-1 col-md-1 col-lg-1" },
-            _react2['default'].createElement(
-              'button',
-              { id: "back", type: "button", className: "btn btn-default", 'aria-label': "Left Align", onClick: this._onClick },
-              _react2['default'].createElement('span', { className: "glyphicon glyphicon-chevron-left", 'aria-hidden': "true" })
-            )
-          ),
-          _react2['default'].createElement(
-            'div',
-            { className: "status" },
-            status
-          )
+          'button',
+          { id: "back",
+            type: "button",
+            className: "btn btn-default form-group",
+            'aria-label': "Left Align",
+            onClick: this._onClick },
+          _react2['default'].createElement('span', { className: "glyphicon glyphicon-chevron-left", 'aria-hidden': "true" })
+        ),
+        statusView,
+        fileListView
+      );
+    }
+  }, {
+    key: 'renderStatusView',
+    value: function renderStatusView() {
+      return _react2['default'].createElement(
+        'div',
+        { className: "status" },
+        _react2['default'].createElement(
+          'label',
+          null,
+          '"Loading metadata ..."'
         )
+      );
+    }
+  }, {
+    key: 'renderFileListView',
+    value: function renderFileListView() {
+      return _react2['default'].createElement(
+        'div',
+        { className: "file-list" },
+        _react2['default'].createElement(_TorrentFileListReact2['default'], null)
       );
     }
   }, {
@@ -838,7 +844,7 @@ var TorrentStatus = (function (_React$Component) {
 exports['default'] = TorrentStatus;
 module.exports = exports['default'];
 
-},{"../actions/TorrentActions":2,"../constants/TorrentStates":12,"../stores/TorrentStore":14,"alt/utils/connectToStores":26,"react":319}],12:[function(require,module,exports){
+},{"../actions/TorrentActions":2,"../constants/TorrentStates":12,"../stores/TorrentStore":14,"./TorrentFileList.react":8,"alt/utils/connectToStores":26,"react":319}],12:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1020,6 +1026,11 @@ var TorrentStore = (function () {
       } else {
         engine.on('ready', onready);
       }
+    }
+  }, {
+    key: 'onSelectFile',
+    value: function onSelectFile(file) {
+      this.selectedFile = file;
     }
   }, {
     key: 'onCloseTorrent',

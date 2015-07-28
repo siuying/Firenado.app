@@ -1,4 +1,5 @@
 import React from 'react'
+import TorrentActions from '../actions/TorrentActions'
 
 export default class TorrentFile extends React.Component {
   render() {
@@ -16,5 +17,6 @@ export default class TorrentFile extends React.Component {
 
   _onClick(e) {
     console.log('item: ', this.props.file)
+    TorrentActions.selectFile(this.props.file)
   }
 }

@@ -19,3 +19,25 @@
 .torrent-status .name {
   font-weight: bolder
 }
+
+.torrent-status {
+  display: flex;
+  flex-direction: row;
+}
+
+.torrent-status .file-list {
+  flex: flex-grow;
+}
+
+.torrent-status .file-list {
+  flex-grow: 1;
+}
+
+.torrent-status .file-list .dropdown {
+  width: auto
+}
+
+.dropdown button {
+  width: 100%;
+  text-align: left;
+}

@@ -4,7 +4,8 @@ class TorrentActions {
   constructor() {
     this.generateActions(
       'openTorrentUrl',
-      'closeTorrent'
+      'closeTorrent',
+      'selectFile'
     )
   }
 }
