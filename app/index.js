@@ -342,12 +342,15 @@ var TorrentFile = (function (_React$Component) {
     value: function render() {
       var highlightClass = this.props.selected ? "list-group-item list-group-item-success" : "list-group-item";
       return _react2["default"].createElement(
-        "a",
-        { href: "#",
-          className: highlightClass,
-          onClick: this._onClick.bind(this)
-        },
-        this.props.file.name
+        "li",
+        null,
+        _react2["default"].createElement(
+          "a",
+          { href: "#",
+            onClick: this._onClick.bind(this)
+          },
+          this.props.file.name
+        )
       );
     }
   }, {
@@ -422,8 +425,23 @@ var TorrentFileList = (function (_React$Component) {
       });
       return _react2['default'].createElement(
         'div',
-        { className: "list-group torrent-files" },
-        files
+        { className: "dropdown" },
+        _react2['default'].createElement(
+          'button',
+          { className: "btn btn-default dropdown-toggle",
+            type: "button",
+            'data-toggle': "dropdown",
+            'aria-haspopup': "true",
+            'aria-expanded': "true" },
+          this.props.selectedFile.name,
+          _react2['default'].createElement('span', { className: "caret" })
+        ),
+        _react2['default'].createElement(
+          'ul',
+          { className: "dropdown-menu",
+            'aria-labelledby': "dropdownMenu1" },
+          files
+        )
       );
     }
   }], [{

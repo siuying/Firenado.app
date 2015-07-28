@@ -30,8 +30,19 @@ export default class TorrentFileList extends React.Component {
         selected={this.props.selectedFile == f} />)
     })
     return (
-      <div className="list-group torrent-files">
-        {files}
+      <div className="dropdown">
+        <button className="btn btn-default dropdown-toggle"
+        type="button"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="true">
+          {this.props.selectedFile.name}
+          <span className="caret"></span>
+        </button>
+        <ul className="dropdown-menu"
+          aria-labelledby="dropdownMenu1">
+          {files}
+        </ul>
       </div>
     )
   }

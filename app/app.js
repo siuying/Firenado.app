@@ -5,6 +5,6 @@ import React from 'react'
 import PiratePlayApp from './components/PiratePlayApp.react'
 
 React.render(
-  <PiratePlayApp />, 
+  <PiratePlayApp />,
   document.getElementById('react')
 )
