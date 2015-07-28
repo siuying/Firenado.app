@@ -23,15 +23,17 @@ export default class TorrentStatus extends React.Component {
 
     return (
       <div className="torrent-status">
-        <button id="back"
-          type="button"
-          className="btn btn-default form-group"
-          aria-label="Left Align"
-          onClick={this._onClick}>
-          <span className="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        </button>
-        {statusView}
-        {fileListView}
+        <div className="header">
+          <button id="back"
+            type="button"
+            className="btn btn-default form-group"
+            aria-label="Left Align"
+            onClick={this._onClick}>
+            <span className="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          </button>
+          {statusView}
+          {fileListView}
+        </div>
       </div>
     )
   }
