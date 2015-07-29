@@ -17,28 +17,6 @@ class TorrentStatus extends React.Component {
     return TorrentStore.getState()
   }
 
-  componentWillUnmount() {
-    if (this.player) {
-      this.player.stop()
-      this.player = null
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.videoUrl) {
-      if (!this.state || this.state.videoUrl !=  nextProps.videoUrl) {
-        this.player = new wjs("#player").addPlayer({ autoplay: true })
-        this.player.addPlaylist(nextProps.videoUrl)
-        console.log('set video url:', nextProps.videoUrl)
-      }
-    } else {
-      if (this.player) {
-        this.player.stop()
-      }
-    }
-    this.setState(nextProps)
-  }
-
   render() {
     var statusView = (this.props.state == TorrentStates.LoadingMetadata) ? this.renderStatusView()  : null
     var fileListView = (this.props.state != TorrentStates.LoadingMetadata) ? this.renderFileListView() : null

@@ -39,3 +39,18 @@ app.on('ready', function() {
     mainWindow = null;
   });
 });
+
+var ipc = require('ipc');
+ipc.on('open-video', function(event, url) {
+  console.log('open-video! ', url)
+
+  // Create the browser window.
+  var videoWindow = new BrowserWindow({width: 800, height: 600});
+
+  // and load the index.html of the app.
+  videoWindow.loadUrl('file://' + __dirname + '/video.html#' + url);
+
+  videoWindow.on('closed', function() {
+    videoWindow = null;
+  });
+});

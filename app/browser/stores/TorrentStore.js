@@ -2,7 +2,7 @@ import alt from '../alt'
 import peerflix from 'peerflix'
 import numeral from 'numeral'
 import address from 'network-address'
-
+import ipc from 'ipc'
 import TorrentActions from '../actions/TorrentActions'
 import TorrentStates from '../constants/TorrentStates'
 
@@ -50,18 +50,18 @@ class TorrentStore {
       var host = address()
       var videoUrl = `http://${host}:${engine.server.address().port}/`
       store.videoUrl = videoUrl
+      store.openVideo(videoUrl)
       store.emitChange()
       console.log('listening on ', videoUrl)
     });
-
     function onready() {
       store.files = engine.files
       store.selectedFile = engine.server.index
       store.state = TorrentStates.Ready
       store.emitChange()
+
       console.log(store.files.map((file) => file.name))
     }
-
     if (engine.torrent) {
       onready()
     } else {
@@ -75,6 +75,11 @@ class TorrentStore {
 
   onCloseTorrent() {
     this.reset()
+  }
+
+  openVideo(videoUrl) {
+    console.log("Play Video:", videoUrl)
+    ipc.send('open-video', videoUrl)
   }
 
   reset() {
