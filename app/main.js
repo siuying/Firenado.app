@@ -2,6 +2,7 @@ var polyfill = require("babel/register");
 
 var app = require('app');  // Module to control application life.
 var BrowserWindow = require('browser-window');  // Module to create native browser window.
+var ipc = require('ipc');
 
 // Report crashes to our server.
 require('crash-reporter').start();
@@ -9,6 +10,7 @@ require('crash-reporter').start();
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is GCed.
 var mainWindow = null;
+var videoWindows = {};
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -40,17 +42,21 @@ app.on('ready', function() {
   });
 });
 
-var ipc = require('ipc');
 ipc.on('open-video', function(event, url) {
-  console.log('open-video! ', url)
+  // if this video exists
+  if (videoWindows[url]) {
+    videoWindows[url].show();
+    return;
+  }
 
-  // Create the browser window.
   var videoWindow = new BrowserWindow({width: 800, height: 600});
+  videoWindows[url] = videoWindow;
 
   // and load the index.html of the app.
   videoWindow.loadUrl('file://' + __dirname + '/video.html#' + url);
 
+  // cleanup after closed window
   videoWindow.on('closed', function() {
-    videoWindow = null;
+    videoWindows[url] = null;
   });
 });
