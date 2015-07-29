@@ -1,2 +1,2 @@
-var polyfill = require("babel/polyfill");
+require("babel/register");
 require('./browser/app');

@@ -12,14 +12,9 @@
 	<body>
 		<section id="react"></section>
     <script>
-      window.onload = function(){
-        require('babel/register')({
-					stage: 0
-				})
-				window.jQuery = require("./vendor/jquery.min.js")
-				require("./vendor/bootstrap.min.js")
-        require("./browser.js")
-      }
+			window.$ = window.jQuery = require("./vendor/jquery.min.js")
+			require("./vendor/bootstrap.min.js")
+			require("./browser.js")
     </script>
 	</body>
 </html>

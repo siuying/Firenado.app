@@ -8,8 +8,7 @@ import TorrentStates from '../constants/TorrentStates'
 
 import TorrentFileList from './TorrentFileList'
 
-@connectToStores
-export default class TorrentStatus extends React.Component {
+class TorrentStatus extends React.Component {
   static getStores(props) {
     return [TorrentStore]
   }
@@ -63,3 +62,5 @@ export default class TorrentStatus extends React.Component {
     TorrentActions.closeTorrent()
   }
 }
+
+export default TorrentStatus = connectToStores(TorrentStatus)

@@ -4,8 +4,7 @@ import connectToStores from 'alt/utils/connectToStores'
 import TorrentFileItem from './TorrentFileItem'
 import TorrentStore from '../stores/TorrentStore'
 
-@connectToStores
-export default class TorrentFileList extends React.Component {
+class TorrentFileList extends React.Component {
   static getStores(props) {
     return [TorrentStore]
   }
@@ -47,3 +46,5 @@ export default class TorrentFileList extends React.Component {
     )
   }
 }
+
+export default TorrentFileList = connectToStores(TorrentFileList)

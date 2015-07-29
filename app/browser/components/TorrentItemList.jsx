@@ -17,8 +17,7 @@ function getTorrentItem(torrent) {
     leechers={torrent.leechers} />)
 }
 
-@connectToStores
-export default class TorrentItemList extends React.Component {
+class TorrentItemList extends React.Component {
   static getStores(props) {
     return [SearchStore]
   }
@@ -53,3 +52,5 @@ export default class TorrentItemList extends React.Component {
     )
   }
 }
+
+export default TorrentItemList = connectToStores(TorrentItemList)

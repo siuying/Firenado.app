@@ -8,7 +8,6 @@ import TorrentStatus from './TorrentStatus'
 import TorrentStore from '../stores/TorrentStore'
 import TorrentStates from '../constants/TorrentStates'
 
-@connectToStores
 class PrivatePlayApp extends React.Component {
   static getStores(props) {
     return [TorrentStore]
@@ -52,4 +51,4 @@ class PrivatePlayApp extends React.Component {
   }
 }
 
-export default PrivatePlayApp
+export default PrivatePlayApp = connectToStores(PrivatePlayApp)
