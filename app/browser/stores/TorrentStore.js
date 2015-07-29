@@ -3,10 +3,14 @@ import peerflix from 'peerflix'
 import numeral from 'numeral'
 import address from 'network-address'
 import ipc from 'ipc'
+import process from 'process'
+
 import TorrentActions from '../actions/TorrentActions'
 import TorrentStates from '../constants/TorrentStates'
 
 var engine = null
+var engineRemoveListener = null
+
 var toBytes = function (num) {
   return numeral(num).format('0.0b')
 }
@@ -65,6 +69,16 @@ class TorrentStore {
     } else {
       engine.on('ready', onready)
     }
+
+    // setup a remove callback on exit
+    var engineRemoveListener = function () {
+      engine.remove(function () {
+        console.log("cleanup completed.")
+        process.exit()
+      })
+    }
+    process.on('SIGINT', engineRemoveListener)
+    process.on('SIGTERM', engineRemoveListener)
   }
 
   onSelectFile(file) {
@@ -90,11 +104,17 @@ class TorrentStore {
     this.invalid = 0
 
     if (engine) {
-      var engineToRemove = engine;
+      // cleanup the abort listener
+      if (engineRemoveListener) {
+        process.removeListener('SIGINT', engineRemoveListener)
+        process.removeListener('SIGTERM', engineRemoveListener)
+        engineRemoveListener = null
+      }
+
+      // cleanup and destroy the engine
+      var engineToRemove = engine
       engineToRemove.remove(() => {
-        console.log("cleanup torrent-stream.")
         engineToRemove.destroy(() => {
-          console.log("destroy torrent-stream.")
         })
       })
       engine = null;
