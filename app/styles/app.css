@@ -2,6 +2,20 @@
   padding: 20px;
 }
 
+.searcher {
+  display: flex;
+  width: 100%;
+}
+
+.searcher .form-group {
+  flex-grow: 1;
+  padding-right: 8px;
+}
+
+.searcher .form-group input {
+  width: 100%
+}
+
 .torrents .item .category {
   font-size: 10px
 }

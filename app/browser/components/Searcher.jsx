@@ -26,7 +26,7 @@ class Searcher extends React.Component {
         <form
           className="form-inline searcher"
           onSubmit={this._onSubmit.bind(this)}>
-          <div className="form-group col-xs-10 col-sm-11 col-md-11 col-lg-11">
+          <div className="form-group">
             <input type="text"
               className="form-control"
               placeholder="TV shows or Movies"
