@@ -4,6 +4,7 @@
 body,html{ width: 100%; height: 100%; padding: 0px; margin:0px }
 #player { width: 100%; height: 100% }
 </style>
+<title>Video</title>
 </head>
 <body>
 <div id="player"></div>
@@ -11,8 +12,13 @@ body,html{ width: 100%; height: 100%; padding: 0px; margin:0px }
 var wjs = require("wcjs-player");
 var player = new wjs("#player").addPlayer({ autoplay: true });
 if (window.location.hash) {
-  var videoUrl = window.location.hash.substring(1);
-  player.addPlaylist(videoUrl)
+  var base64Data = window.location.hash
+  var buffer = new Buffer(base64Data, 'base64')
+  var params = JSON.parse(buffer.toString())
+  var url = params.url
+  var title = params.title
+  window.document.title = title
+  player.addPlaylist(url)
 }
 </script>
 </body>

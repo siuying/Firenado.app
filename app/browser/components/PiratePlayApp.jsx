@@ -25,12 +25,7 @@ class PrivatePlayApp extends React.Component {
       return this.renderSearch()
     }
 
-    if (this.props.state == TorrentStates.LoadingMetadata || this.props.state == TorrentStates.Ready) {
-      return this.renderTorrentInfo()
-    }
-
-    console.log('unknown state', this.props.state)
-    return null
+    return this.renderTorrentInfo()
   }
 
   renderSearch() {

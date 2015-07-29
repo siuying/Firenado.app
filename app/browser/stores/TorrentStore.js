@@ -51,7 +51,7 @@ class TorrentStore {
       var videoUrl = `http://${host}:${engine.server.address().port}/`
       store.state = TorrentStates.Listening
       store.videoUrl = videoUrl
-      store.openVideo(videoUrl)
+      store.openVideo(store.selectedFile.name, store.videoUrl)
       store.emitChange()
     });
     function onready() {
@@ -75,9 +75,8 @@ class TorrentStore {
     this.reset()
   }
 
-  openVideo(videoUrl) {
-    console.log("Play Video:", videoUrl)
-    ipc.send('open-video', videoUrl)
+  openVideo(title, url) {
+    ipc.send('open-video', title, url)
   }
 
   reset() {
@@ -91,10 +90,14 @@ class TorrentStore {
     this.invalid = 0
 
     if (engine) {
-      engine.remove(() => {
-        console.log("cleanup torrent-stream completed.")
+      var engineToRemove = engine;
+      engineToRemove.remove(() => {
+        console.log("cleanup torrent-stream.")
+        engineToRemove.destroy(() => {
+          console.log("destroy torrent-stream.")
+        })
       })
-      engine = null
+      engine = null;
     }
   }
 }

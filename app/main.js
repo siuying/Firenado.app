@@ -42,16 +42,19 @@ app.on('ready', function() {
   });
 });
 
-ipc.on('open-video', function(event, url) {
+ipc.on('open-video', function(event, title, url) {
+  var data = JSON.stringify({url: url, title: title});
+  var base64Data = new Buffer(data).toString("base64");
+
   // if video window exists
   if (videoWindow) {
-    videoWindow.loadUrl('file://' + __dirname + '/video.html#' + url);
+    videoWindow.loadUrl('file://' + __dirname + '/video.html#' + base64Data);
     videoWindow.show();
     return;
   }
 
   var videoWindow = new BrowserWindow({width: 800, height: 600});
-  videoWindow.loadUrl('file://' + __dirname + '/video.html#' + url);
+  videoWindow.loadUrl('file://' + __dirname + '/video.html#' + base64Data);
   videoWindow.on('closed', function() {
     videoWindow = null;
   });
