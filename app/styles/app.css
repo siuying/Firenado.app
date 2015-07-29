@@ -34,9 +34,14 @@
   font-weight: bolder
 }
 
-.torrent-status {
+.torrent-status .header {
   display: flex;
+  width: 100%;
   flex-direction: row;
+}
+
+.torrent-status #back {
+  margin-right: 10px;
 }
 
 .torrent-status .file-list {

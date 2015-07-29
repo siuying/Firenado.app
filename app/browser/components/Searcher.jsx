@@ -22,7 +22,7 @@ class Searcher extends React.Component {
     // if user changed the query, use the changed value, otherwsie use props
     const query = this.state ? this.state.query : this.props.query
     return (
-      <div className="searcher row">
+      <div className="searcher">
         <form
           className="form-inline searcher"
           onSubmit={this._onSubmit.bind(this)}>
