@@ -49,18 +49,16 @@ class TorrentStore {
     engine.server.on('listening', () => {
       var host = address()
       var videoUrl = `http://${host}:${engine.server.address().port}/`
+      store.state = TorrentStates.Listening
       store.videoUrl = videoUrl
       store.openVideo(videoUrl)
       store.emitChange()
-      console.log('listening on ', videoUrl)
     });
     function onready() {
       store.files = engine.files
       store.selectedFile = engine.server.index
       store.state = TorrentStates.Ready
       store.emitChange()
-
-      console.log(store.files.map((file) => file.name))
     }
     if (engine.torrent) {
       onready()
