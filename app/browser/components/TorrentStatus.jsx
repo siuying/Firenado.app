@@ -17,13 +17,26 @@ class TorrentStatus extends React.Component {
     return TorrentStore.getState()
   }
 
-  componentDidMount() {
-    this.player = new wjs("#player").addPlayer({ autoplay: true })
+  componentWillUnmount() {
+    if (this.player) {
+      this.player.stop()
+      this.player = null
+    }
   }
 
-  componentWillUnmount() {
-    this.player.stop()
-    this.player = null
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.videoUrl) {
+      if (!this.state || this.state.videoUrl !=  nextProps.videoUrl) {
+        this.player = new wjs("#player").addPlayer({ autoplay: true })
+        this.player.addPlaylist(nextProps.videoUrl)
+        console.log('set video url:', nextProps.videoUrl)
+      }
+    } else {
+      if (this.player) {
+        this.player.stop()
+      }
+    }
+    this.setState(nextProps)
   }
 
   render() {
@@ -42,8 +55,6 @@ class TorrentStatus extends React.Component {
           </button>
           {statusView}
           {fileListView}
-        </div>
-        <div id="player" className="embed-responsive embed-responsive-16by9">
         </div>
       </div>
     )

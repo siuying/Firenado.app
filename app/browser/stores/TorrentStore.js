@@ -80,6 +80,7 @@ class TorrentStore {
   reset() {
     this.state = TorrentStates.Idle
     this.torrentUrl = null
+    this.videoUrl = null
     this.files = null
     this.selectedFile = null
     this.hotswaps = 0
