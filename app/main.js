@@ -1,16 +1,12 @@
 var polyfill = require("babel/register");
 
-var app = require('app');  // Module to control application life.
-var BrowserWindow = require('browser-window');  // Module to create native browser window.
+var app = require('app');
 var ipc = require('ipc');
+
+var WindowStore = require('./server/stores/WindowStore');
 
 // Report crashes to our server.
 require('crash-reporter').start();
-
-// Keep a global reference of the window object, if you don't, the window will
-// be closed automatically when the JavaScript object is GCed.
-var mainWindow = null;
-var videoWindow = null;
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
@@ -21,41 +17,16 @@ app.on('window-all-closed', function() {
   }
 });
 
+app.on('activate-with-no-open-windows', function() {
+  WindowStore.openMainWindow();
+});
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 app.on('ready', function() {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({width: 800, height: 600});
-
-  // and load the index.html of the app.
-  mainWindow.loadUrl('file://' + __dirname + '/index.html');
-
-  // Open the devtools.
-  mainWindow.openDevTools({detach: true});
-
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function() {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null;
-  });
+  WindowStore.openMainWindow();
 });
 
 ipc.on('open-video', function(event, title, url) {
-  var data = JSON.stringify({url: url, title: title});
-  var base64Data = new Buffer(data).toString("base64");
-
-  // if video window exists
-  if (videoWindow) {
-    videoWindow.loadUrl('file://' + __dirname + '/video.html#' + base64Data);
-    videoWindow.show();
-    return;
-  }
-
-  var videoWindow = new BrowserWindow({width: 800, height: 600});
-  videoWindow.loadUrl('file://' + __dirname + '/video.html#' + base64Data);
-  videoWindow.on('closed', function() {
-    videoWindow = null;
-  });
+  WindowStore.openVideoWindow();
 });
