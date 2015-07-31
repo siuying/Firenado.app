@@ -1,6 +1,6 @@
 #!/bin/bash
 
-APP_NAME=TorrentPlay
+APP_NAME=Firenado
 
 # Cleanup
 rm -rf build/$APP_NAME/osx

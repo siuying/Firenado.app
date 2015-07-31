@@ -1,4 +1,4 @@
-# TorrentPlay
+# Firenado.app
 
 Search and playback media on BitTorrent.
 
