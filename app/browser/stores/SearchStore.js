@@ -13,7 +13,8 @@ class SearchStore {
       new TorrentFinder.Popgo(),
       new TorrentFinder.Nyaa()
     ]
-    this.searcher = this.onSetEngine("piratebay")
+    this.onSetEngine("piratebay")
+
     this.query = null
     this.searching = false
     this.torrents = null

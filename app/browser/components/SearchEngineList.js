@@ -44,7 +44,6 @@ class SearchEngineList extends React.Component {
 
     var selectedEngineName = this.props.selectedEngineName
     var enginesItems = this.props.engines.map((f) => getSearchEngineItem(f))
-    console.log("selectedEngineName:", selectedEngineName, "engines:", this.props.engines)
     return (
       <div className="dropdown engines">
         <button className="btn btn-default dropdown-toggle"
