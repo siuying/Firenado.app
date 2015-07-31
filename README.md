@@ -1,9 +1,10 @@
+![icon](Arts/icon-256.png)
+
 # Firenado.app
 
 Search and playback media on BitTorrent.
 
-Technically it could work on Linux/Mac/Windows, currently only OSX build is ready.
-
+![What-Is](Arts/Firenado.gif)
 
 ## Download
 
