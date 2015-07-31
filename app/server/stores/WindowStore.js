@@ -1,6 +1,7 @@
 import alt from '../alt'
 import app from 'app'
 import ipc from 'ipc'
+import process from 'process'
 
 import BrowserWindow from 'browser-window'
 import WindowActions from '../actions/WindowActions'
@@ -26,7 +27,9 @@ class WindowStore {
     mainWindow.loadUrl('file://' + __dirname + '/../../index.html');
 
     // Open the devtools.
-    mainWindow.openDevTools({detach: true});
+    if (process.env.NODE_ENV == "DEVELOPMENT") {
+      mainWindow.openDevTools({detach: true});
+    }
 
     // Emitted when the window is closed.
     mainWindow.on('closed', function() {

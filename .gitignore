@@ -2,3 +2,4 @@
 .cache
 node_modules
 .DS_Store
+vendor/libvlc_2.2.1_mac.zip
