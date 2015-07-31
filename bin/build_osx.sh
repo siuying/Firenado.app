@@ -1,6 +1,7 @@
 #!/bin/bash
 
 APP_NAME=Firenado
+SIGNING_USER="Developer ID Application: Ignition Soft Limited"
 
 # Cleanup
 rm -rf build/$APP_NAME/osx
@@ -22,3 +23,6 @@ cp -R Arts/Firenado.icns build/$APP_NAME/osx/${APP_NAME}.app/Contents/Resources/
 unzip vendor/libvlc_2.2.1_mac.zip -d node_modules/wcjs-player/node_modules/wcjs-renderer/node_modules/webchimera.js/build/Release/
 cp -R node_modules build/$APP_NAME/osx/${APP_NAME}.app/Contents/Resources/app
 rm -rf build/$APP_NAME/osx/${APP_NAME}.app/Contents/Resources/app/node_modules/{electron-prebuilt,electron-rebuild}
+
+# Code signing
+codesign --force --sign "${SIGNING_USER}" -vv --deep build/Firenado/osx/Firenado.app
