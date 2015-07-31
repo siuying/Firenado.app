@@ -1,5 +1,5 @@
 {
-  "name": "pirate-play",
+  "name": "torrent-play",
   "main": "./app/main.js",
   "scripts": {
     "start": "npm run run",
