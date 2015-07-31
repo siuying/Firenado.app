@@ -1,14 +1,19 @@
-var polyfill = require("babel/register");
+import alt from '../alt'
+import app from 'app'
+import ipc from 'ipc'
 
-var BrowserWindow = require('browser-window');  // Module to create native browser window.
-var app = require('app');  // Module to control application life.
-var ipc = require('ipc');
+import BrowserWindow from 'browser-window'
+import WindowActions from '../actions/WindowActions'
 
 var mainWindow = null;
 var videoWindow = null;
 
-var WindowStore = {
-  openMainWindow: function() {
+class WindowStore {
+  constructor() {
+    this.bindActions(WindowActions)
+  }
+
+  onOpenMainWindow() {
     if (mainWindow) {
       mainWindow.show();
       return;
@@ -30,10 +35,10 @@ var WindowStore = {
       }
       mainWindow = null;
     });
-  },
+  }
 
-  openVideoWindow: function(title, url) {
-    var data = JSON.stringify({url: url, title: title});
+  onOpenVideoWindow(params) {
+    var data = JSON.stringify(params);
     var base64Data = new Buffer(data).toString("base64");
 
     // if video window exists
@@ -51,4 +56,4 @@ var WindowStore = {
   }
 }
 
-export default WindowStore
+export default alt.createStore(WindowStore, 'WindowStore')
