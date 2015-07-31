@@ -2,12 +2,13 @@ import alt from '../alt'
 import peerflix from 'peerflix'
 import numeral from 'numeral'
 import address from 'network-address'
-import ipc from 'ipc'
+import remote from 'remote'
 import process from 'process'
 
 import TorrentActions from '../actions/TorrentActions'
 import TorrentStates from '../constants/TorrentStates'
 
+var WindowActions = remote.getGlobal('Server').WindowActions
 var engine = null
 var engineRemoveListener = null
 
@@ -90,7 +91,7 @@ class TorrentStore {
   }
 
   openVideo(title, url) {
-    ipc.send('open-video', title, url)
+    WindowActions.openVideoWindow({title, url})
   }
 
   reset() {

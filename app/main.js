@@ -3,7 +3,8 @@ require("babel/register");
 var app = require('app');
 var ipc = require('ipc');
 
-var Server = require('./server/app');
+// use global so that client can access via remote
+Server = require('./server/app');
 
 // Report crashes to our server.
 require('crash-reporter').start();
@@ -21,12 +22,6 @@ app.on('activate-with-no-open-windows', function() {
   Server.WindowActions.openMainWindow();
 });
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
 app.on('ready', function() {
   Server.WindowActions.openMainWindow();
-});
-
-ipc.on('open-video', function(event, title, url) {
-  Server.WindowActions.openVideoWindow({title: title, url: url});
 });
