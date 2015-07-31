@@ -28,5 +28,5 @@ app.on('ready', function() {
 });
 
 ipc.on('open-video', function(event, title, url) {
-  WindowStore.openVideoWindow();
+  WindowStore.openVideoWindow(title, url);
 });

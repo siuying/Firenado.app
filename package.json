@@ -5,8 +5,6 @@
     "start": "npm run run",
     "run": "./bin/run"
   },
-  "dependencies": {
-  },
   "devDependencies": {
     "electron-prebuilt": "^0.30.1"
   }

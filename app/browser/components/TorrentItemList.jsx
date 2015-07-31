@@ -7,11 +7,9 @@ import TorrentItem from './TorrentItem'
 
 function getTorrentItem(torrent) {
   return (<TorrentItem key={torrent.link}
-    magnetLink={torrent.magnetLink}
+    link={torrent.link}
     name={torrent.name}
     category={torrent.category}
-    subcategory={torrent.subcategory}
-    uploadDate={torrent.uploadDate}
     size={torrent.size}
     seeders={torrent.seeders}
     leechers={torrent.leechers} />)

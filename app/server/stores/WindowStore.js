@@ -32,7 +32,7 @@ var WindowStore = {
     });
   },
 
-  openVideoWindow: function() {
+  openVideoWindow: function(title, url) {
     var data = JSON.stringify({url: url, title: title});
     var base64Data = new Buffer(data).toString("base64");
 

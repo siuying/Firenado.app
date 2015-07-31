@@ -1,13 +1,13 @@
 import alt from '../alt'
 import SearchActions from '../actions/SearchActions'
 
-import thepiratebay from 'thepiratebay'
-thepiratebay.setUrl('https://thepiratebay.la')
+import TorrentFinder from 'torrent-finder'
 
 class SearchStore {
   constructor() {
     this.bindActions(SearchActions)
 
+    this.searcher = new TorrentFinder.Piratebay()
     this.query = null
     this.searching = false
     this.torrents = null
@@ -18,19 +18,18 @@ class SearchStore {
     this.searching = true
     console.log("Search", query, this.searching)
 
+    var store = this
     // category 200 = video
-    thepiratebay.search(query, {category: 200}).then((torrents) => {
-      // torrents: category{id, name}, leechers, link, magnetLink, name, 
-      // seeders, size, subcategory{id, name}, torrentLink, uploadDate
+    this.searcher.search(query).then((torrents) => {
       console.log(torrents)
-      this.searching = false
-      this.torrents = torrents
-      this.emitChange()
+      store.searching = false
+      store.torrents = torrents
+      store.emitChange()
 
     }).catch((error) => {
       console.log(error)
-      this.searching = false
-      this.emitChange()
+      store.searching = false
+      store.emitChange()
 
     })
   }
