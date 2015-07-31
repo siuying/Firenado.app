@@ -3,6 +3,7 @@ import React from 'react'
 
 import SearchStore from '../stores/SearchStore'
 import SearchActions from '../actions/SearchActions'
+import SearchEngineList from './SearchEngineList'
 
 class Searcher extends React.Component {
   static getStores(props) {
@@ -26,6 +27,7 @@ class Searcher extends React.Component {
         <form
           className="form-inline searcher"
           onSubmit={this._onSubmit.bind(this)}>
+          <SearchEngineList />
           <div className="form-group">
             <input type="text"
               className="form-control"

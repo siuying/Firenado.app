@@ -7,7 +7,13 @@ class SearchStore {
   constructor() {
     this.bindActions(SearchActions)
 
-    this.searcher = new TorrentFinder.Piratebay()
+    this.engines = [
+      new TorrentFinder.Piratebay(),
+      new TorrentFinder.Dmhy(),
+      new TorrentFinder.Popgo(),
+      new TorrentFinder.Nyaa()
+    ]
+    this.searcher = this.onSetEngine("piratebay")
     this.query = null
     this.searching = false
     this.torrents = null
@@ -32,6 +38,11 @@ class SearchStore {
       store.emitChange()
 
     })
+  }
+
+  onSetEngine(engineCode) {
+    this.selectedEngineName = engineCode
+    this.searcher = this.engines.find((e) => e.name() == engineCode)
   }
 }
 

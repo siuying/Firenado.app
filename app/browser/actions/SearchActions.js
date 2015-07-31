@@ -3,7 +3,8 @@ import alt from '../alt'
 class SearchActions {
   constructor() {
     this.generateActions(
-      'search'
+      'search',
+      'setEngine'
     )
   }
 }
