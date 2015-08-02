@@ -5,7 +5,8 @@ import SearchStore from '../stores/SearchStore'
 import SearchActions from '../actions/SearchActions'
 import SearchEngineList from './SearchEngineList'
 
-class Searcher extends React.Component {
+@connectToStores
+export default class Searcher extends React.Component {
   static getStores(props) {
     return [SearchStore]
   }
@@ -54,5 +55,3 @@ class Searcher extends React.Component {
     this.setState({query: e.target.value})
   }
 }
-
-export default Searcher = connectToStores(Searcher)

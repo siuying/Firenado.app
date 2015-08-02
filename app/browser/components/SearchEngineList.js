@@ -24,7 +24,8 @@ function getSearchEngineItem(engine) {
     name={getEngineName(code)} />)
 }
 
-class SearchEngineList extends React.Component {
+@connectToStores
+export default class SearchEngineList extends React.Component {
   static getStores(props) {
     return [SearchStore]
   }
@@ -62,5 +63,3 @@ class SearchEngineList extends React.Component {
     )
   }
 }
-
-export default SearchEngineList = connectToStores(SearchEngineList)

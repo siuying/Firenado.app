@@ -1,4 +1,6 @@
-require("babel/register");
+require("babel/register")({
+  stage: 0
+});;
 
 var app = require('app');
 var ipc = require('ipc');
