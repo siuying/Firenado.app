@@ -60,9 +60,8 @@ class TorrentStore {
     });
     function onready() {
       store.files = engine.files
-      store.selectedFile = engine.server.index
       store.state = TorrentStates.Ready
-      store.emitChange()
+      TorrentActions.selectFile(engine.server.index)
     }
     if (engine.torrent) {
       onready()
@@ -105,19 +104,23 @@ class TorrentStore {
     this.invalid = 0
 
     if (engine) {
-      // cleanup the abort listener
-      if (engineRemoveListener) {
-        process.removeListener('SIGINT', engineRemoveListener)
-        process.removeListener('SIGTERM', engineRemoveListener)
-        engineRemoveListener = null
-      }
+      try {
+        // cleanup the abort listener
+        if (engineRemoveListener) {
+          process.removeListener('SIGINT', engineRemoveListener)
+          process.removeListener('SIGTERM', engineRemoveListener)
+          engineRemoveListener = null
+        }
 
-      // cleanup and destroy the engine
-      var engineToRemove = engine
-      engineToRemove.remove(() => {
-        engineToRemove.destroy(() => {
+        // cleanup and destroy the engine
+        var engineToRemove = engine
+        engineToRemove.remove(() => {
+          engineToRemove.destroy(() => {
+          })
         })
-      })
+      } catch (e) {
+        console.warn("catched error on cleanup", e)
+      }
       engine = null;
     }
   }

@@ -3,10 +3,13 @@ import connectToStores from 'alt/utils/connectToStores'
 import wjs from "wcjs-player"
 
 import TorrentStore from '../stores/TorrentStore'
+import MetadataStore from '../stores/MetadataStore'
+
 import TorrentActions from '../actions/TorrentActions'
 import TorrentStates from '../constants/TorrentStates'
 
 import TorrentFileList from './TorrentFileList'
+import MetadataPanel from './MetadataPanel'
 
 @connectToStores
 export default class TorrentStatus extends React.Component {
@@ -37,6 +40,8 @@ export default class TorrentStatus extends React.Component {
           {fileListView}
           {playButton}
         </div>
+
+        <MetadataPanel />
       </div>
     )
   }

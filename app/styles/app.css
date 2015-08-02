@@ -61,6 +61,10 @@
   width: auto
 }
 
+.torrent-status .metadata {
+  margin-top: 10px
+}
+
 .dropdown button {
   width: 100%;
   text-align: left;
