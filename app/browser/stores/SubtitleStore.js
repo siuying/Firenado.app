@@ -43,10 +43,6 @@ class SubtitleStore {
   onSelectSubtitleById(id) {
     this.selectedSubtitle = this.subtitles.find((sub) => sub.id == id)
 
-    if (this.downloadedSubtitlePath) {
-      fs.unlinkSync(this.downloadedSubtitlePath)
-      this.downloadedSubtitlePath = null
-    }
     this.downloadSubtitle(this.selectedSubtitle.downloadUrl)
   }
 
@@ -105,8 +101,13 @@ class SubtitleStore {
   // download subtitle and save it to disk (as temp file),
   // then update this.downloadedSubtitlePath
   downloadSubtitle(url) {
-    console.log("selected subtitle", this.selectedSubtitle)
+    // remove previous downloads
+    if (this.downloadedSubtitlePath) {
+      fs.unlinkSync(this.downloadedSubtitlePath)
+      this.downloadedSubtitlePath = null
+    }
 
+    console.log("selected subtitle", this.selectedSubtitle)
     var postfix = `.${this.selectedSubtitle.format}`
     tmp.file({prefix: 'subtitle', postfix: postfix}, (error, path, fd) => {
       if (error) {
