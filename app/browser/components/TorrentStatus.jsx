@@ -25,7 +25,7 @@ export default class TorrentStatus extends React.Component {
   render() {
     var statusView = (this.props.state == TorrentStates.LoadingMetadata) ? this.renderStatusView()  : null
     var fileListView = (this.props.state != TorrentStates.LoadingMetadata) ? this.renderFileListView() : null
-    var playButton = this.renderPlayButton()
+    var playButton = (this.props.state != TorrentStates.LoadingMetadata) ? this.renderPlayButton() : null
 
     return (
       <div className="torrent-status">
