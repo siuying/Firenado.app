@@ -3,7 +3,9 @@ import MovieDB from 'moviedb'
 import TVDB from 'node-tvdb'
 
 import TorrentStore from './TorrentStore'
+
 import TorrentActions from '../actions/TorrentActions'
+import SubtitleActions from '../actions/SubtitleActions'
 
 const MovieNameWithYearRegexp = /^(.+)((19|20)[0-9]{2})/
 const TvNameRegexp = /^(.+)(S|s)([0-9]{1,2})(E|e)([0-9]{1,2})/
@@ -15,6 +17,10 @@ try {
   // use default api key
   alert("Please copy ./app/browser/constant/APIKeys.detault.js to ./app/browser/constant/APIKeys.js and set all services API keys!")
   throw "Please copy ./app/browser/constant/APIKeys.detault.js to ./app/browser/constant/APIKeys.js and set all services API keys!"
+}
+
+function cleanupName(name) {
+  return name.replace(/[\(\)]/g, "").replace(/\./g, " ").trim()
 }
 
 class MetadataStore {
@@ -48,17 +54,15 @@ class MetadataStore {
     this.overview = null
     this.poster_path = null
     this.backdrop_path = null
-
   }
 
   parseFilename(filename) {
     this.type = 'unknown'
-    this.name = filename
 
     const tvMatch = filename.match(TvNameRegexp)
     if (tvMatch) {
       this.type = 'tv'
-      this.name = tvMatch[1].replace(/[\(\)]/g, "").replace(/\./g, " ").trim()
+      this.name = cleanupName(tvMatch[1])
       this.season = tvMatch[3] ? Number(tvMatch[3]) : null
       this.episode = tvMatch[5] ? Number(tvMatch[5]) : null
       return
@@ -66,7 +70,7 @@ class MetadataStore {
 
     const movieMatch = filename.match(MovieNameWithYearRegexp)
     if (movieMatch) {
-      this.name = movieMatch[1].replace(/[\(\)]/g, "").replace(/\./g, " ").trim()
+      this.name = cleanupName(movieMatch[1])
       var year = movieMatch[2]
       if (year) {
         this.year = Number(year)
@@ -74,6 +78,8 @@ class MetadataStore {
       this.type = 'movie'
       return
     }
+
+    this.name = cleanupName(name)
   }
 
   fetchMovieData(name, year) {
@@ -88,7 +94,7 @@ class MetadataStore {
           }
 
           console.log("movie", movie)
-          this.imdb_id = movie.imdb_id
+          this.imdb_id = movie.imdb_id.replace(/tt/, "")
           this.name = movie.title
           this.overview = movie.overview
           if (movie.poster_path) {
@@ -98,6 +104,9 @@ class MetadataStore {
             this.backdrop_path = `https://image.tmdb.org/t/p/w780${movie.backdrop_path}`
           }
           this.emitChange()
+
+          console.log("SubtitleActions", SubtitleActions)
+          SubtitleActions.search({imdb_id: this.imdb_id, name: this.filename})
         })
       } else {
         console.log("no result!", error);
@@ -118,13 +127,16 @@ class MetadataStore {
         var show = results[0]
         console.log("show", show)
 
-        this.imdb_id = show.IMDB_ID
+        this.imdb_id = show.IMDB_ID.replace(/tt/, "")
         this.name = show.SeriesName
         this.overview = show.Overview
         if (show.banner) {
           this.backdrop_path = `http://thetvdb.com/banners/${show.banner}`
         }
         this.emitChange()
+
+        console.log("SubtitleActions", SubtitleActions)
+        SubtitleActions.search({imdb_id: this.imdb_id, name: this.filename, season: this.season, episode: this.episode})
       }
     })
   }
