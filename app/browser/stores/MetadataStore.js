@@ -104,8 +104,6 @@ class MetadataStore {
             this.backdrop_path = `https://image.tmdb.org/t/p/w780${movie.backdrop_path}`
           }
           this.emitChange()
-
-          console.log("SubtitleActions", SubtitleActions)
           SubtitleActions.search({imdb_id: this.imdb_id, name: this.filename})
         })
       } else {
@@ -134,8 +132,6 @@ class MetadataStore {
           this.backdrop_path = `http://thetvdb.com/banners/${show.banner}`
         }
         this.emitChange()
-
-        console.log("SubtitleActions", SubtitleActions)
         SubtitleActions.search({imdb_id: this.imdb_id, name: this.filename, season: this.season, episode: this.episode})
       }
     })

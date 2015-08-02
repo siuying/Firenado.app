@@ -15,10 +15,8 @@ if (window.location.hash) {
   var base64Data = window.location.hash
   var buffer = new Buffer(base64Data, 'base64')
   var params = JSON.parse(buffer.toString())
-  var url = params.url
-  var title = params.title
   window.document.title = title
-  player.addPlaylist(url)
+  player.addPlaylist(params)
 }
 </script>
 </body>

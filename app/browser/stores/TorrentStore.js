@@ -7,6 +7,7 @@ import process from 'process'
 
 import TorrentActions from '../actions/TorrentActions'
 import TorrentStates from '../constants/TorrentStates'
+import SubtitleStore from './SubtitleStore'
 
 var WindowActions = remote.getGlobal('Server').WindowActions
 var engine = null
@@ -90,6 +91,10 @@ class TorrentStore {
 
   onPlayTorrent() {
     var playbackParams = {title: this.selectedFile.name, url: this.videoUrl}
+    var subtitle = SubtitleStore.getState().downloadedSubtitlePath
+    if (subtitle) {
+      playbackParams.subtitle = subtitle
+    }
     WindowActions.openVideoWindow(playbackParams)
   }
 
