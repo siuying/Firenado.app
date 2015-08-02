@@ -91,9 +91,15 @@ class TorrentStore {
 
   onPlayTorrent() {
     var playbackParams = {title: this.selectedFile.name, url: this.videoUrl}
-    var subtitle = SubtitleStore.getState().downloadedSubtitlePath
-    if (subtitle) {
-      playbackParams.subtitle = subtitle
+
+    // set the subtitles if needed
+    var subStates = SubtitleStore.getState()
+    var subtitlePath = subStates.downloadedSubtitlePath
+    var selectedSubtitle = subStates.selectedSubtitle
+    if (subtitlePath && selectedSubtitle) {
+      var language = selectedSubtitle.language
+      playbackParams.subtitles = {}
+      playbackParams.subtitles[language] = subtitlePath
     }
     WindowActions.openVideoWindow(playbackParams)
   }

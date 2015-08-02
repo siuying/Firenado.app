@@ -1,22 +1,13 @@
 import alt from '../alt'
 import subtitler from 'subtitler'
 import request from 'request'
-import temp from 'temp'
+import tmp from 'tmp'
 import fs from 'fs'
+import path from 'path'
+import zlib from 'zlib'
 
 import SubtitleActions from '../actions/SubtitleActions'
 import TorrentActions from '../actions/TorrentActions'
-
-function transformSubtitles(subitles) {
-  return subitles.map((sub) => {
-    return {
-      id: sub.IDSubtitleFile,
-      name: sub.SubFileName,
-      downloads: Number(sub.SubDownloadsCnt),
-      downloadUrl: sub.SubDownloadLink // .gz sub file download
-    }
-  })
-}
 
 class SubtitleStore {
   constructor() {
@@ -35,7 +26,7 @@ class SubtitleStore {
     })
 
     // keep track of temp file
-    temp.track()
+    tmp.setGracefulCleanup()
   }
 
   onCloseTorrent() {
@@ -43,22 +34,20 @@ class SubtitleStore {
     this.loading = false
     this.selectedSubtitle = null
 
-    // cleanup temp file
     if (this.downloadedSubtitlePath) {
-      temp.cleanupSync()
+      fs.unlinkSync(this.downloadedSubtitlePath)
       this.downloadedSubtitlePath = null
-    }
-
-    // logout opensubtitle
-    if (this.token) {
-      subtitler.api.logout(this.token)
-      this.subtitler = null
-      this.token = null
     }
   }
 
   onSelectSubtitleById(id) {
     this.selectedSubtitle = this.subtitles.find((sub) => sub.id == id)
+
+    if (this.downloadedSubtitlePath) {
+      fs.unlinkSync(this.downloadedSubtitlePath)
+      this.downloadedSubtitlePath = null
+    }
+    this.downloadSubtitle(this.selectedSubtitle.downloadUrl)
   }
 
   onSearch(query) {
@@ -67,10 +56,8 @@ class SubtitleStore {
 
       if (query.season && query.episode) {
         this.performSearch({imdbid: String(query.imdb_id), query: query.name, seasion: query.season, episode: query.episode, sublanguageid: this.languages})
-          .then(this.onDownloadedSubtitle.bind(this))
       } else {
         this.performSearch({imdbid: String(query.imdb_id), query: query.name, sublanguageid: this.languages})
-          .then(this.onDownloadedSubtitle.bind(this))
       }
       return
     }
@@ -79,70 +66,67 @@ class SubtitleStore {
       console.log("search with name: ", query.name)
       this.loading = true
       this.performSearch({query: query.name, sublanguageid: this.languages})
-        .then(this.onDownloadedSubtitle.bind(this))
       return
     }
 
     console.log("unknown query", query)
   }
 
-  onLogout() {
-    if (this.token) {
-      subtitler.api.logout(this.token)
-      this.subtitler = null
-      this.token = null
-    }
-    console.log("logged out opensubtitle")
-  }
-
   // perform the search using subtitler
   performSearch(query) {
     console.log("perform search ...", query)
-    return this.subtitler.then(() => subtitler.api.search(this.token, "eng", query))
+
+    var handleSearchResult = function() {
+      this.loading = false
+      this.subtitles = results.map((sub) => {
+        return {
+          id: sub.IDSubtitleFile,
+          name: sub.SubFileName,
+          format: sub.SubFormat,
+          language: sub.LanguageName,
+          downloads: Number(sub.SubDownloadsCnt),
+          downloadUrl: sub.SubDownloadLink // .gz sub file download
+        }
+      })
+      if (results.length > 0) {
+        this.selectedSubtitle = this.subtitles[0]
+        SubtitleActions.selectSubtitleById(this.selectedSubtitle.id)
+      }
+
+      console.log("found subtitles", this.subtitles)
+      this.emitChange()
+    }
+
+    return this.subtitler
+      .then(() => subtitler.api.search(this.token, "eng", query))
+      .then(handleSearchResult.bind(this))
   }
 
   // download subtitle and save it to disk (as temp file),
   // then update this.downloadedSubtitlePath
   downloadSubtitle(url) {
-    request({uri: url, gzip: true}, (error, response, body) => {
+    console.log("selected subtitle", this.selectedSubtitle)
+
+    var postfix = `.${this.selectedSubtitle.format}`
+    tmp.file({prefix: 'subtitle', postfix: postfix}, (error, path, fd) => {
       if (error) {
-        console.log("failed download subtitle file", url, error)
+        console.error("failed open file to write subtitle", error)
         return
       }
 
-      temp.open('filename', (error, info) => {
-        if (error) {
-          console.error("failed open file to write subtitle", error)
-          return
-        }
-
-        fs.write(info.fd, body, (error) => {
-          if (error) {
-            console.error("failed writing subtitle", error, "path:", info.path)
-            return
-          }
-
-          fs.close(info.fd, (error) => {
-            if (error) {
-              console.error("failed closing subtitle file", error, "path:", info.path)
-              return
-            }
-            console.log("temp subtitle path", info.path)
-            this.downloadedSubtitlePath = info.path
+      console.log(`downloaded subtitle: ${path}`)
+      var outStream = fs.createWriteStream(path)
+      request({uri: url})
+        .pipe(zlib.createGunzip())
+        .pipe(outStream)
+        .on('finish', (result) => {
+          fs.close(fd, (error) => {
+            console.log("written subtitle: " + path)
+            this.downloadedSubtitlePath = path
+            this.emitChange()
           })
         })
-      })
     })
-  }
-
-  onDownloadedSubtitle(results) {
-    this.loading = false
-    this.subtitles = transformSubtitles(results)
-    if (results.length > 0) {
-      this.selectedSubtitle = this.subtitles[0]
-    }
-    console.log("found subtitles", this.subtitles)
-    this.emitChange()
   }
 }
 
