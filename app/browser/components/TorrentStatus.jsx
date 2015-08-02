@@ -21,6 +21,7 @@ export default class TorrentStatus extends React.Component {
   render() {
     var statusView = (this.props.state == TorrentStates.LoadingMetadata) ? this.renderStatusView()  : null
     var fileListView = (this.props.state != TorrentStates.LoadingMetadata) ? this.renderFileListView() : null
+    var playButton = this.renderPlayButton()
 
     return (
       <div className="torrent-status">
@@ -29,11 +30,12 @@ export default class TorrentStatus extends React.Component {
             type="button"
             className="btn btn-default form-group"
             aria-label="Left Align"
-            onClick={this._onClick}>
+            onClick={this._onClickBack}>
             <span className="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
           </button>
           {statusView}
           {fileListView}
+          {playButton}
         </div>
       </div>
     )
@@ -47,8 +49,24 @@ export default class TorrentStatus extends React.Component {
     return (<div className="file-list"><TorrentFileList /></div>)
   }
 
-  _onClick() {
+  renderPlayButton() {
+    return (
+      <button type="button"
+        className="btn btn-default form-group"
+        aria-label="Left Align"
+        onClick={this._onClickPlay}>
+        <span className="glyphicon glyphicon-play" aria-hidden="true"></span>
+      </button>
+    )
+  }
+
+  _onClickBack() {
     console.log("close torrent")
     TorrentActions.closeTorrent()
+  }
+
+  _onClickPlay() {
+    console.log("play torrent")
+    TorrentActions.playTorrent()
   }
 }

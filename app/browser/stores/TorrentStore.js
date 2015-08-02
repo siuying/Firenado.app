@@ -56,7 +56,6 @@ class TorrentStore {
       var videoUrl = `http://${host}:${engine.server.address().port}/`
       store.state = TorrentStates.Listening
       store.videoUrl = videoUrl
-      store.openVideo(store.selectedFile.name, store.videoUrl)
       store.emitChange()
     });
     function onready() {
@@ -90,8 +89,9 @@ class TorrentStore {
     this.reset()
   }
 
-  openVideo(title, url) {
-    WindowActions.openVideoWindow({title, url})
+  onPlayTorrent() {
+    var playbackParams = {title: this.selectedFile.name, url: this.videoUrl}
+    WindowActions.openVideoWindow(playbackParams)
   }
 
   reset() {

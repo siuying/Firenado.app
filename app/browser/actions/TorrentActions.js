@@ -5,7 +5,8 @@ class TorrentActions {
     this.generateActions(
       'openTorrentUrl',
       'closeTorrent',
-      'selectFile'
+      'selectFile',
+      'playTorrent'
     )
   }
 }
