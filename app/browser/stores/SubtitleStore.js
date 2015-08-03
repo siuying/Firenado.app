@@ -1,13 +1,9 @@
 import alt from '../alt'
 import subtitler from 'subtitler'
-import tmp from 'tmp'
-import fs from 'fs'
 import path from 'path'
 
 import SubtitleActions from '../actions/SubtitleActions'
 import TorrentActions from '../actions/TorrentActions'
-
-const SupportedFormats = ["srt", "vtt", "sub"]
 
 class SubtitleStore {
   constructor() {
@@ -24,9 +20,6 @@ class SubtitleStore {
       console.log("opensubtitle token", token)
       this.token = token
     })
-
-    // keep track of temp file
-    tmp.setGracefulCleanup()
   }
 
   onCloseTorrent() {
@@ -68,24 +61,25 @@ class SubtitleStore {
       this.loading = false
       this.subtitles = results.map((sub) => {
         // SubDownloadLink is a .gz file URL,
-        // Add extension so that wcjs-player will decode it
-        var urlWithFormat = sub.SubDownloadLink.replace(/\.gz$/, '.' + sub.SubFormat)
+        // rename it to .srt so that it will download the .srt format
+        // (opensubtitle support conversion automatically)
         return {
           id: sub.IDSubtitleFile,
           name: sub.SubFileName,
           format: sub.SubFormat,
           language: sub.LanguageName,
           downloads: Number(sub.SubDownloadsCnt),
-          url:  urlWithFormat
+          url:  sub.SubDownloadLink.replace(/\.gz$/, '.srt')
         }
-      }).filter((sub) => SupportedFormats.indexOf(sub.format) > -1)
+      }).sort((a, b) => b.downloads - a.downloads) // sort by downloads
 
+      // find a default
       if (results.length > 0) {
         this.selectedSubtitle = this.subtitles[0]
         SubtitleActions.selectSubtitleById(this.selectedSubtitle.id)
+        console.log("found subtitles", this.subtitles)
       }
 
-      console.log("found subtitles", this.subtitles)
       this.emitChange()
     }
 
