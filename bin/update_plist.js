@@ -5,7 +5,7 @@ var plist = require('plist')
 var process = require('process')
 
 var appName = "Firenado"
-var appVersion = "0.1.1"
+var appVersion = "0.2.0"
 var appId = "hk.ignition.Firenado"
 var plistFile = 'build/' + appName + '/osx/Firenado.app/Contents/Info.plist'
 
