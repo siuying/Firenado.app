@@ -12,11 +12,23 @@ body,html{ width: 100%; height: 100%; padding: 0px; margin:0px }
 var wjs = require("wcjs-player");
 var player = new wjs("#player").addPlayer({ autoplay: true });
 if (window.location.hash) {
+  var firstTime = true;
   var base64Data = window.location.hash
   var buffer = new Buffer(base64Data, 'base64')
   var params = JSON.parse(buffer.toString())
   window.document.title = params.title
   console.log('params', params)
+  if (params.subtitles) {
+    player.onMediaChanged(function() { firstTime = true; });
+    player.onEnded(function() { firstTime = true; });
+    player.onStopped(function() { firstTime = true; });
+    player.onPlaying(function() {
+        if (firstTime) {
+            firstTime = false;
+            player.subTrack(1);
+        }
+    });
+  }
   player.addPlaylist(params)
 }
 </script>
