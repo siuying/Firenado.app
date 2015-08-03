@@ -18,6 +18,7 @@ cp -R app build/$APP_NAME/osx/${APP_NAME}.app/Contents/Resources/
 
 rm -rf build/$APP_NAME/osx/${APP_NAME}.app/Contents/Resources/atom.icns
 cp -R Arts/Firenado.icns build/$APP_NAME/osx/${APP_NAME}.app/Contents/Resources/atom.icns
+./bin/update_plist.js
 
 # Copy modules
 unzip vendor/libvlc_2.2.1_mac.zip -d node_modules/wcjs-player/node_modules/wcjs-renderer/node_modules/webchimera.js/build/Release/
