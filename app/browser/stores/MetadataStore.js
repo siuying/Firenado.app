@@ -57,8 +57,6 @@ class MetadataStore {
   }
 
   parseFilename(filename) {
-    this.type = 'unknown'
-
     const tvMatch = filename.match(TvNameRegexp)
     if (tvMatch) {
       this.type = 'tv'
