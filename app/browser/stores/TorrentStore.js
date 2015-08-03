@@ -99,8 +99,7 @@ class TorrentStore {
     if (subtitlePath && selectedSubtitle) {
       var language = selectedSubtitle.language
       playbackParams.subtitles = {}
-      playbackParams.subtitles[language] = 'file://' + subtitlePath
-      console.log('file://' + subtitlePath)
+      playbackParams.subtitles[language] = subtitlePath
     }
     WindowActions.openVideoWindow(playbackParams)
   }
