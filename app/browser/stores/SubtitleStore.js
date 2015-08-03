@@ -1,13 +1,13 @@
 import alt from '../alt'
 import subtitler from 'subtitler'
-import request from 'request'
 import tmp from 'tmp'
 import fs from 'fs'
 import path from 'path'
-import zlib from 'zlib'
 
 import SubtitleActions from '../actions/SubtitleActions'
 import TorrentActions from '../actions/TorrentActions'
+
+const SupportedFormats = ["srt", "vtt", "sub"]
 
 class SubtitleStore {
   constructor() {
@@ -33,17 +33,10 @@ class SubtitleStore {
     this.subtitles = null
     this.loading = false
     this.selectedSubtitle = null
-
-    if (this.downloadedSubtitlePath) {
-      fs.unlinkSync(this.downloadedSubtitlePath)
-      this.downloadedSubtitlePath = null
-    }
   }
 
   onSelectSubtitleById(id) {
     this.selectedSubtitle = this.subtitles.find((sub) => sub.id == id)
-
-    this.downloadSubtitle(this.selectedSubtitle.downloadUrl)
   }
 
   onSearch(query) {
@@ -64,7 +57,6 @@ class SubtitleStore {
       this.performSearch({query: query.name, sublanguageid: this.languages})
       return
     }
-
     console.log("unknown query", query)
   }
 
@@ -75,15 +67,19 @@ class SubtitleStore {
     var handleSearchResult = function() {
       this.loading = false
       this.subtitles = results.map((sub) => {
+        // SubDownloadLink is a .gz file URL,
+        // Add extension so that wcjs-player will decode it
+        var urlWithFormat = sub.SubDownloadLink.replace(/\.gz$/, '.' + sub.SubFormat)
         return {
           id: sub.IDSubtitleFile,
           name: sub.SubFileName,
           format: sub.SubFormat,
           language: sub.LanguageName,
           downloads: Number(sub.SubDownloadsCnt),
-          downloadUrl: sub.SubDownloadLink // .gz sub file download
+          url:  urlWithFormat
         }
-      })
+      }).filter((sub) => SupportedFormats.indexOf(sub.format) > -1)
+
       if (results.length > 0) {
         this.selectedSubtitle = this.subtitles[0]
         SubtitleActions.selectSubtitleById(this.selectedSubtitle.id)
@@ -96,38 +92,6 @@ class SubtitleStore {
     return this.subtitler
       .then(() => subtitler.api.search(this.token, "eng", query))
       .then(handleSearchResult.bind(this))
-  }
-
-  // download subtitle and save it to disk (as temp file),
-  // then update this.downloadedSubtitlePath
-  downloadSubtitle(url) {
-    // remove previous downloads
-    if (this.downloadedSubtitlePath) {
-      fs.unlinkSync(this.downloadedSubtitlePath)
-      this.downloadedSubtitlePath = null
-    }
-
-    console.log("selected subtitle", this.selectedSubtitle)
-    var postfix = `.${this.selectedSubtitle.format}`
-    tmp.file({prefix: 'subtitle', postfix: postfix}, (error, path, fd) => {
-      if (error) {
-        console.error("failed open file to write subtitle", error)
-        return
-      }
-
-      console.log(`downloaded subtitle: ${path}`)
-      var outStream = fs.createWriteStream(path)
-      request({uri: url})
-        .pipe(zlib.createGunzip())
-        .pipe(outStream)
-        .on('finish', (result) => {
-          fs.close(fd, (error) => {
-            console.log("written subtitle: " + path)
-            this.downloadedSubtitlePath = path
-            this.emitChange()
-          })
-        })
-    })
   }
 }
 
