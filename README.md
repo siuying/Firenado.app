@@ -16,7 +16,7 @@ Firenado.app has been tested in:
 
 Technically it would work on Windows/Mac/Linux, but currently only Mac build is available. Pull requests welcome!
 
-- [Mac](https://www.dropbox.com/s/6bkf3h06g7ls1an/Firenado_0.2.0.zip?dl=1)
+- [Mac](https://www.dropbox.com/s/wk7vk4l3douakyt/Firenado_0.2.0b.zip?dl=1)
 
 ## About
 

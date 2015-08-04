@@ -26,4 +26,5 @@ cp -R node_modules build/$APP_NAME/osx/${APP_NAME}.app/Contents/Resources/app
 rm -rf build/$APP_NAME/osx/${APP_NAME}.app/Contents/Resources/app/node_modules/{electron-prebuilt,electron-rebuild}
 
 # Code signing
+export CODESIGN_ALLOCATE="/Applications/Xcode.app/Contents/Developer/usr/bin/codesign_allocate"
 codesign --force --sign "${SIGNING_USER}" -vv --deep build/Firenado/osx/Firenado.app
